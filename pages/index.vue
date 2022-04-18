@@ -1,8 +1,9 @@
 <template>
-  <div class="index-pae">
+  <div class="index-page">
     index page
     <nuxt-link to="/contacts">contacts</nuxt-link>
-    <NuxtComponentSvg />
+    <NuxtvgI />
+    <img src="~/assets/images/Nce/back.png" />
   </div>
 </template>
 

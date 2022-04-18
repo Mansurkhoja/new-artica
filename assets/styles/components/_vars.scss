@@ -1,0 +1,24 @@
+// Fonts
+$font-family-base: "Montserrat", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple Color Emoji";
+$font-family-second: "Geometos", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple Color Emoji";
+
+// Colors
+$white: #ffffff;
+$black: #000000;
+
+//shadows
+$shadow1: 0px 6px 18px 0px rgba(0, 0, 0, 0.15);
+
+//transitions
+$trs0: 0.15s ease-in-out;
+$trs1: 0.25s ease-in-out;
+$trs2: 0.5s ease-in-out;
+$trs3: 1s ease-in-out;
+$trs0out: 0.15s ease-out;
+$trs1out: 0.25s ease-out;
+$trs2out: 0.5s ease-out;
+$trs3out: 1s ease-out;
+$trs0in: 0.15s ease-in;
+$trs1in: 0.25s ease-in;
+$trs2in: 0.5s ease-in;
+$trs3in: 1s ease-in;

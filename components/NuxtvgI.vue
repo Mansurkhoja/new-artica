@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'NuxtComponentSvg'
+  name: 'NuxtvgI'
 }
 </script>
