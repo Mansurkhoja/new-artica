@@ -10,12 +10,16 @@
 @import "./components/base";
 /* ========== Grid ========== */
 @import "./components/grid";
+/* ========== Layout ========== */
+@import "./components/layout";
 /* ========== Header ========== */
 @import "./components/header";
 /* ========== Nav ========== */
 @import "./components/nav";
 /* ========== Forms ========== */
 @import "./components/forms";
+/* ========== Home ========== */
+@import "./components/home";
 // .page-enter-active,
 // .page-leave-active {
 //   transition: opacity 0.5s;
@@ -24,7 +28,3 @@
 // .page-leave-to {
 //   opacity: 0;
 // }
-.index-page {
-    opacity: 0.1;
-    font-family: $font-family-second;
-}

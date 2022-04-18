@@ -1,135 +1,189 @@
 .nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background-color: rgba(var(--item-bg-r), 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: background-color $trs2;
+  .container {
     height: 100%;
-    z-index: 99;
-    background-color: #fff;
-    opacity: 0;
-    visibility: hidden;
-    transition: background-color $trs2;
-    .container {
-      height: 100%;
-      padding-top: 80px;
-      padding-bottom: 30px;
-    }
-    &__container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 100%;
-    }
+    padding-top: 80px;
+    padding-bottom: 30px;
   }
-  
-  .nav-m {
-    font-size: 144px;
-    flex: 0 0 auto;
-    padding-right: 115px;
-    &__list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    &__item {
-      &:not(:last-child) {
-        margin-bottom: 0.1em;
-      }
-      &.disabled {
-        pointer-events: none;
-      }
-    }
-    &__link {
-      display: block;
-      white-space: nowrap;
-      font-family: $font-family-second;
-      line-height: 0.75;
-      position: relative;
-      padding-top: 0.25em;
-      font-weight: 400;
-      text-decoration: none;
-      color: #000;
-      transition: color $trs2;
-      will-change: transform;
-      &.disabled {
-        pointer-events: none;
-      }
-    }
-    @include xl-max {
-      font-size: 7.5vw;
-      padding-right: 6vw;
-    }
-  }
-  
-  .nav-s-area {
-    flex: 1 1 100%;
-    height: 100%;
+  &__container {
     position: relative;
     display: flex;
     align-items: center;
-    &__container {
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-      &:before,
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 2;
-        pointer-events: none;
-      }
-      &:before {
-        background: linear-gradient(0deg, rgba(0,0,0,1) 0%,rgba(0,0,0,0) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,1) 100%);
-        opacity: 0;
-        transition: $trs0out;
-      }
-      &:after {
-        transition: $trs2;
-        transition-delay: .5s;
-        background: linear-gradient(0deg, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 49%,rgba(255,255,255,0) 51%,rgba(255,255,255,1) 100%);
-      }
+    height: 100%;
+  }
+}
+
+.nav-m {
+  font-size: 144px;
+  flex: 0 0 auto;
+  padding-right: 115px;
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &__item {
+    &:not(:last-child) {
+      margin-bottom: 0.1em;
+    }
+    &.disabled {
+      pointer-events: none;
     }
   }
-  
-  .nav-s {
-    font-size: 50px;
-    position: absolute;
+  &__link {
+    display: block;
+    white-space: nowrap;
+    font-family: $font-family-second;
+    line-height: 0.75;
+    position: relative;
+    padding-top: 0.25em;
+    font-weight: 400;
+    text-decoration: none;
+    color: rgba(var(--item-color), 1);
+    transition: color $trs2;
+    will-change: transform;
+    &.disabled {
+      pointer-events: none;
+    }
+  }
+  @include xl-max {
+    font-size: 7.5vw;
+    padding-right: 6vw;
+  }
+}
+
+.nav-s-area {
+  flex: 1 1 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  &__container {
     width: 100%;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    opacity: 0;
-    visibility: hidden;
-    &__list {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-    &__link {
-      color: #000;
-      opacity: .15;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-family: $font-family-second;
+    position: relative;
+    overflow: hidden;
+    &:before,
+    &:after {
+      content: "";
       display: block;
-      transition: opacity $trs1out, color $trs2;
-      padding-top: 0.25em;
-      overflow: hidden;
-      &.active {
-        opacity: 1;
-        pointer-events: none;
-      }
-      &.touch,
-      &.hover {
-        opacity: 0.6;
-      }
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 2;
+      pointer-events: none;
     }
-    @include xl-max {
-      font-size: 2.6vw;
+    &:before {
+      background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0) 49%,
+        rgba(0, 0, 0, 0) 51%,
+        rgba(0, 0, 0, 1) 100%
+      );
+      opacity: 0;
+      transition: $trs0out;
+    }
+    &:after {
+      transition: $trs2;
+      transition-delay: 0.5s;
+      background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 49%,
+        rgba(255, 255, 255, 0) 51%,
+        rgba(255, 255, 255, 1) 100%
+      );
     }
   }
+}
+
+.nav-s {
+  font-size: 50px;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  opacity: 0;
+  visibility: hidden;
+  &__list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  &__link {
+    color: rgba(var(--item-color), 1);
+    opacity: 0.15;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: $font-family-second;
+    display: block;
+    transition: opacity $trs1out, color $trs2;
+    padding-top: 0.25em;
+    overflow: hidden;
+    &.active {
+      opacity: 1;
+      pointer-events: none;
+    }
+    &.touch,
+    &.hover {
+      opacity: 0.6;
+    }
+  }
+  @include xl-max {
+    font-size: 2.6vw;
+  }
+}
+
+.mode-toggle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  line-height: 20px;
+  &__title {
+    margin-right: 15px;
+    font-size: 16px;
+  }
+  &__trigger {
+    width: 42px;
+    height: 24px;
+    background-color: rgba(var(--item-bg), 1);
+    border-radius: 24px;
+    //margin: -3px 15px -3px 0;
+    position: relative;
+    transition: $trs2;
+    &:before {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      border-radius: 20px;
+      background-color: rgba(var(--item-bg-r), 1);
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: inherit;
+    }
+  }
+}
+.dark-theme {
+  .mode-toggle {
+    &__trigger {
+      &:before {
+        transform: translateX(18px);
+      }
+    }
+  }
+}

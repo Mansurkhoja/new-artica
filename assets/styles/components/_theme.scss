@@ -2,8 +2,8 @@
     --white: 255, 255, 255;
     --black: 0, 0, 0;
 }
-body {
-    opacity: 0;
+.wrapper {
+    display: none;
 }
 .dark-theme {
     // --page-bg: rgba(var(--black), 1);
@@ -12,8 +12,8 @@ body {
     --item-bg-r: var(--black);
     --item-color: var(--white);
     --item-color-r: var(--black);
-    body {
-        opacity: 1;
+    .wrapper {
+        display: block;
     }
 }
 
@@ -23,7 +23,7 @@ body {
     --item-bg-r: var(--white);
     --item-color: var(--black);
     --item-color-r: var(--white);
-    body {
-        opacity: 1;
+    .wrapper {
+        display: block;
     }
 }

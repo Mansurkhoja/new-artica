@@ -1,21 +1,20 @@
-*,
-*:before,
-*:after {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
 html {
-    line-height: 1.25;
-    -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    height: 100%;
     overflow: hidden;
+    font-size: 18px;
+    font-weight: 400;
+}
+@media screen and (max-width: 1440px) {
+    html {
+        font-size: 16px;
+    }
 }
 body {
-    margin: 0;
+    // position: fixed;
+    line-height: 1.25;
     font-family: $font-family-base;
-    font-weight: 400;
-    font-size: 20px;
     color: rgba(var(--item-color));
     background-color: rgba(var(--page-bg));
     min-width: 320px;
@@ -23,7 +22,7 @@ body {
     width: 100%;
     overflow: hidden;
     backface-visibility: hidden;
-    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+    transition: background-color $trs2, color $trs2;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-font-smoothing: antialiased;
@@ -37,9 +36,30 @@ body {
     background: red;
     color: $white;
 }
+
+textarea {
+    resize: none;
+    overflow: auto;
+}
+a,
+button,
+label {
+    user-select: none;
+    -webkit-user-drag: none;
+    cursor: pointer;
+}
+table {
+    border-collapse: collapse;
+}
+img {
+    pointer-events: none;
+    user-select: none;
+}
 a {
     background-color: transparent;
     text-decoration: none;
+    color: rgba(var(--item-color), 1);
+    transition: color $trs2;
 }
 ul {
     margin: 0;
@@ -65,6 +85,13 @@ textarea {
     font-size: 100%;
     line-height: 1.2;
     margin: 0;
+    border: 0;
+    appearance: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    outline: none;
 }
 
 button,
@@ -76,14 +103,14 @@ button,
 select {
     text-transform: none;
 }
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    font-size: 16px;
-    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
-    transition: color 90000s ease-in-out 0s, background-color 90000s ease-in-out 0s;
-}
+// input:-webkit-autofill,
+// input:-webkit-autofill:hover,
+// input:-webkit-autofill:focus,
+// input:-webkit-autofill:active {
+//     font-size: 16px;
+//     -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+//     transition: color 90000s ease-in-out 0s, background-color 90000s ease-in-out 0s;
+// }
 input::-ms-reveal,
 input::-ms-clear {
     display: none;
@@ -99,10 +126,6 @@ button,
 [type="reset"],
 [type="submit"] {
     -webkit-appearance: button;
-}
-textarea {
-    overflow: auto;
-    resize: none;
 }
 h1,
 h2,
@@ -147,62 +170,62 @@ p {
     min-width: 5em;
     font-weight: 500;
     &__title {
-      position: relative;
-      z-index: 2;
-      background-color: #fff;
-      color: #000;
-      text-align: center;
-      font-size: 1em;
-      margin: auto -0.25em;
-      letter-spacing: 0.25em;
-      padding: 0.2em 0 0.2em 0.25em;
-      transition: background-color $trs2, color $trs2;
-      overflow: hidden;
-      text-transform: uppercase;
+        position: relative;
+        z-index: 2;
+        background-color: #fff;
+        color: #000;
+        text-align: center;
+        font-size: 1em;
+        margin: auto -0.25em;
+        letter-spacing: 0.25em;
+        padding: 0.2em 0 0.2em 0.25em;
+        transition: background-color $trs2, color $trs2;
+        overflow: hidden;
+        text-transform: uppercase;
     }
     &_graphic {
-      .label-item__title {
-        margin: auto -0.25em -1.35em -0.25em;
-      }
+        .label-item__title {
+            margin: auto -0.25em -1.35em -0.25em;
+        }
     }
     .icon {
-      margin: 0 auto;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      height: 4.3em;
-      width: 100%;
-      fill: rgba(var(--item-bg));
-      transition: fill $trs2;
+        margin: 0 auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        height: 4.3em;
+        width: 100%;
+        fill: rgba(var(--item-bg));
+        transition: fill $trs2;
     }
     @include xl-max {
-      font-size: 1.2vw;
+        font-size: 1.2vw;
     }
     @include md-max {
-      font-size: 2vw;
+        font-size: 2vw;
     }
     @include xs-max {
-      font-size: 2.4vw;
+        font-size: 2.4vw;
     }
 }
-//img
+//images
 .image {
     position: relative;
     img {
-      display: block;
-      width: inherit;
-      height: inherit;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility $trs3, opacity $trs3;
-      &.lazyloaded {
-        visibility: visible;
-        opacity: 1;
-      }
+        display: block;
+        width: inherit;
+        height: inherit;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility $trs3, opacity $trs3;
+        &.lazyloaded {
+            visibility: visible;
+            opacity: 1;
+        }
     }
-  }
-  .background {
+}
+.background {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -214,43 +237,43 @@ p {
     opacity: 0;
     transition: visibility $trs3, opacity $trs3;
     &.lazyloaded {
-      visibility: visible;
-      opacity: 1;
+        visibility: visible;
+        opacity: 1;
     }
-  }
-  .cover {
-    background-color: rgba(0,0,0,0.1);
+}
+.cover {
+    background-color: rgba(var(--item-bg), 0.1);
     overflow: hidden;
     transition: background-color $trs3;
     img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      object-fit: cover;
-      object-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        object-fit: cover;
+        object-position: center;
     }
     &_transparent {
-      background: transparent !important;
+        background: transparent !important;
     }
     &_top {
-      img {
-        object-position: top;
-      }
+        img {
+            object-position: top;
+        }
     }
-  }
-  .contain {
+}
+.contain {
     img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      object-fit: contain;
-      object-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        object-fit: contain;
+        object-position: center;
     }
-  }
+}
 //helpers end
 .trigger-round {
     position: absolute;
@@ -269,7 +292,7 @@ p {
         height: 100%;
         stroke-width: 2px;
         fill: transparent;
-        stroke: rgba(var(--item-bg),  1.0);
+        stroke: rgba(var(--item-bg), 1);
         transform: rotate(-90deg);
         transition: $trs2out;
     }
@@ -412,9 +435,9 @@ p {
     }
 }
 //preloader end
-.main {
-    min-height: 100vh;
-}
+// .main {
+//     min-height: 100vh;
+// }
 @keyframes focus-icon {
     0% {
         stroke-dasharray: 0;
@@ -445,13 +468,13 @@ p {
 /* Recommended styles for Splitting */
 .splitted .word,
 .splitted .char {
-  display: inline-block;
-  letter-spacing: inherit;
+    display: inline-block;
+    letter-spacing: inherit;
 }
 .splitted .word {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 /* Psuedo-element chars */
 .splitted .char {
-  position: relative;
+    position: relative;
 }
