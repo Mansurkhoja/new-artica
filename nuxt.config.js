@@ -1,7 +1,9 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-
+  router: {
+    base: '/new-artica/'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'new-artica',
