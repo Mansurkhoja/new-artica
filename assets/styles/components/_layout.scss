@@ -1,10 +1,13 @@
 .layout {
-    cursor: none;
+    width: 100%;
+    height: 100%;
+    &--main {
+        position: fixed;
+    }
     .trigger-round {
         // opacity: 0;
     }
     &.loaded {
-        cursor: auto;
         .trigger-round {
             // opacity: 1;
         }
@@ -34,22 +37,6 @@
         }
     }
 }
-// .scrollable {
-//     height: auto;
-//     .container_display {
-//         padding-top: 120px;
-//     }
-//     @include lg-max {
-//         .container_display {
-//             padding-top: 110px;
-//         }
-//     }
-//     @include xs-max {
-//         .container_display {
-//             padding-top: 90px;
-//         }
-//     }
-// }
 .container {
     position: relative;
     padding-right: 32px;
@@ -63,13 +50,15 @@
     }
     @include lg-max {
         &_display {
-            padding-top: 100px;
-            padding-bottom: 70px;
+            padding-top: 95px;
+            padding-bottom: 65px;
         }
     }
     @include md-max {
         &_display {
-            padding-bottom: 80px;
+            // padding-bottom: 80px;
+            padding-top: 80px;
+            padding-bottom: 52px;
         }
     }
     @include xs-max {
@@ -81,57 +70,3 @@
         }
     }
 }
-
-// .scrollbar {
-//     position: fixed;
-//     right: 6px;
-//     bottom: 0;
-//     width: 20px;
-//     z-index: 98;
-//     opacity: 0;
-//     padding: 40px 0;
-//     &__container {
-//         width: 100%;
-//         height: 100%;
-//         position: relative;
-//         &:before {
-//             content: "";
-//             display: block;
-//             position: absolute;
-//             top: 0;
-//             left: 50%;
-//             transform: translateX(-50%);
-//             height: 100%;
-//             width: 2px;
-//             background-color: rgba(0, 0, 0, 0.2);
-//             transition: background-color $trs2;
-//         }
-//     }
-//     &__scroller {
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         width: 100%;
-//         height: 0;
-//         &::before {
-//             content: "";
-//             display: block;
-//             position: absolute;
-//             width: 2px;
-//             height: 100%;
-//             top: 0;
-//             left: 50%;
-//             transform: translateX(-50%);
-//             background-color: #000;
-//             transition: background-color $trs2;
-//         }
-//     }
-//     @include lg-max {
-//         padding: 30px 0;
-//     }
-//     @include xs-max {
-//         width: 16px;
-//         right: 0;
-//         padding: 20px 0;
-//     }
-// }

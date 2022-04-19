@@ -1,4 +1,6 @@
 import gsap from 'gsap';
+const speed = 1;
+
 export const TouchHoverEvents = {
   targets: 'a, [data-cursor], button, label, tr, .jsTouchHover, .js-3d-object',
   touched: false,
@@ -194,7 +196,6 @@ export const Circle = {
   },
 };
 const $header = document.querySelector('.header');
-const speed = 1;
 export const Header = {
   init: function () {
     this.isVisible = true;

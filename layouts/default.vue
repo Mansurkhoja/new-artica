@@ -1,6 +1,6 @@
 <template>
-  <div class="layout layout--main" :class="{'loaded': isPreloaderDelay }">
-    <div class="wrapper">
+  <div class="layout layout--main">
+    <div class="wrapper disabled">
       <Header @updateTheme="updateTheme" />
       <Navigation />
       <Nuxt />
@@ -31,17 +31,16 @@ export default {
     isDark () {
       const isDark = this.$store.getters['theme/isDark']
       return isDark ? 'dark-theme' : 'light-theme'
-    },
-    isPreloaderDelay () {
-      const isFinishedDelay = this.$store.getters['preloader/isFinishedDelay']
-      return isFinishedDelay
     }
+    // isPreloaderDelay () {
+    //   const isFinishedDelay = this.$store.getters['preloader/isFinishedDelay']
+    //   return isFinishedDelay
+    // }
   },
   watch: {},
   mounted () {
     this.addClassTheme()
     this.$touchHoverEvents()
-    this.$animateFake3d(this.animation1, this.animation2)
   },
   methods: {
     addClassTheme () {

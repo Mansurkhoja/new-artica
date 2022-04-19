@@ -121,7 +121,7 @@
 
 <script>
 export default {
-  name: "NuxtNavigation",
+  name: 'NuxtNavigation',
   data() {
     return {};
   },

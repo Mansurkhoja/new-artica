@@ -1,7 +1,7 @@
-import { Header } from "@/helpers";
+import { Header } from '@/helpers';
 
 export default ({ app }, inject) => {
-  inject("headerAnimations", (parent, icon) => {
+  inject('headerAnimations', (parent, icon) => {
     return Header;
   });
 };

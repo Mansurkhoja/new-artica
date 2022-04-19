@@ -43,6 +43,9 @@ export default {
     { src: '~/plugins/touchHoverEvents.js', mode: 'client' },
     { src: '~/plugins/animateFake3d.js', mode: 'client' },
     { src: '~/plugins/headerAnimations.js', mode: 'client' },
+    { src: '~/plugins/splitting.js', mode: 'client' },
+    { src: '~/plugins/animateCatCards.js', mode: 'client' },
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,7 +55,8 @@ export default {
   buildModules: [
     'nuxt-gsap-module',
     '@nuxtjs/device',
-    'nuxt-lazysizes'
+    'nuxt-lazysizes',
+    '@nuxtjs/svg'
   ],
   lazySizes: {
     extendAssetUrls: {

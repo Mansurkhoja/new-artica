@@ -1,6 +1,6 @@
-import { TouchHoverEvents } from "@/helpers";
+import { TouchHoverEvents } from '@/helpers';
 export default ({ app }, inject) => {
-  inject("touchHoverEvents", () => {
+  inject('touchHoverEvents', () => {
     TouchHoverEvents.init();
   });
 };

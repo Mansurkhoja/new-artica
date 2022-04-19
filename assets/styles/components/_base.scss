@@ -12,7 +12,7 @@ html {
     }
 }
 body {
-    // position: fixed;
+    position: fixed;
     line-height: 1.25;
     font-family: $font-family-base;
     color: rgba(var(--item-color));
@@ -172,8 +172,8 @@ p {
     &__title {
         position: relative;
         z-index: 2;
-        background-color: #fff;
-        color: #000;
+        background-color: rgba(var(--item-bg-r), 1);
+        color: rgba(var(--item-color), 1);
         text-align: center;
         font-size: 1em;
         margin: auto -0.25em;
@@ -322,14 +322,6 @@ p {
             animation: focus-icon 0.5s 0s forwards linear;
         }
     }
-    &.rotation {
-        .trigger-round-icon {
-            stroke-width: 2px;
-            transform: rotate(-90deg) scale(1);
-            fill: transparent !important;
-            stroke: #000;
-        }
-    }
     &.hidden {
         .trigger-round-icon {
             opacity: 0;
@@ -338,50 +330,12 @@ p {
     }
     &.reversed {
         .trigger-round-icon {
-            stroke: #fff;
+            stroke: rgba(var(--item-bg-r), 1);
         }
         &.hover {
             .trigger-round-icon {
-                fill: rgba(255, 255, 255, 0.2);
+                fill: rgba(var(--item-bg-r), 0.2);
                 stroke: transparent;
-            }
-        }
-        &.rotation {
-            .trigger-round-icon {
-                stroke: #fff;
-            }
-        }
-    }
-    //fixed colors
-    &.black {
-        .trigger-round-icon {
-            stroke: #000;
-        }
-        &.hover {
-            .trigger-round-icon {
-                fill: rgba(0, 0, 0, 0.15);
-                stroke: transparent;
-            }
-        }
-        &.rotation {
-            .trigger-round-icon {
-                stroke: #000;
-            }
-        }
-    }
-    &.white {
-        .trigger-round-icon {
-            stroke: #fff;
-        }
-        &.hover {
-            .trigger-round-icon {
-                fill: rgba(255, 255, 255, 0.2);
-                stroke: transparent;
-            }
-        }
-        &.rotation {
-            .trigger-round-icon {
-                stroke: #fff;
             }
         }
     }
@@ -403,6 +357,7 @@ p {
     display: flex;
     background-color: rgba(var(--page-bg));
     transition: 0.5s ease-out;
+    cursor: none;
     &__icon {
         margin: auto;
         width: 768px;

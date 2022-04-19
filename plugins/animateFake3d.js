@@ -1,39 +1,40 @@
-import { TouchHoverEvents } from "@/helpers";
+import { TouchHoverEvents } from '@/helpers';
 export default ({ app }, inject) => {
-  inject("animateFake3d", (animation1, animation2) => {
-    const $elements = document.querySelectorAll(".js-3d-object");
+  inject('animateFake3d', (animation1, animation2) => {
+    const $elements = document.querySelectorAll('.js-3d-object');
     for (const $element of $elements) {
-      $element.addEventListener("mousemove", animation);
-      $element.addEventListener("mouseleave", animation);
-      $element.addEventListener("touchstart", animation, { passive: true });
-      $element.addEventListener("customTouchend", animation);
+      $element.addEventListener('mousemove', animation);
+      $element.addEventListener('mouseleave', animation);
+      $element.addEventListener('touchstart', animation, { passive: true });
+      $element.addEventListener('customTouchend', animation);
 
-      const $back = $element.querySelector(".js-3d-object__back");
-      const $forward = $element.querySelector(".js-3d-object__forward");
+      const $back =
+        $element.querySelector('.js-3d-object__back');
+      const $forward = $element.querySelector('.js-3d-object__forward');
       let moveForward = 1;
       let rotationForward = 1;
       let rotationBack = 1;
 
       if ($back !== null) {
-        if ($back.getAttribute("data-rotation") !== null) {
-          rotationBack = $back.getAttribute("data-rotation");
+        if ($back.getAttribute('data-rotation') !== null) {
+          rotationBack = $back.getAttribute('data-rotation');
         }
       }
       if ($forward !== null) {
-        if ($forward.getAttribute("data-rotation") !== null) {
-          rotationForward = $forward.getAttribute("data-rotation");
+        if ($forward.getAttribute('data-rotation') !== null) {
+          rotationForward = $forward.getAttribute('data-rotation');
         }
-        if ($forward.getAttribute("data-move") !== null) {
-          moveForward = $forward.getAttribute("data-move");
+        if ($forward.getAttribute('data-move') !== null) {
+          moveForward = $forward.getAttribute('data-move');
         }
       }
       function animation(event) {
         let x, y, w, h, xValue, yValue;
-        if (event.type === "mousemove" || event.type === "touchstart") {
-          if (event.type === "mousemove") {
+        if (event.type === 'mousemove' || event.type === 'touchstart') {
+          if (event.type === 'mousemove') {
             x = event.clientX;
             y = event.clientY;
-          } else if (event.type === "touchstart") {
+          } else if (event.type === 'touchstart') {
             x = event.touches[0].clientX;
             y = event.touches[0].clientY;
           }
@@ -51,7 +52,7 @@ export default ({ app }, inject) => {
               duration: 1,
               rotationY: xValue * rotationBack,
               rotationX: yValue * rotationBack,
-              ease: "power2.out",
+              ease: 'power2.out',
             });
           }
           if ($forward !== null) {
@@ -61,7 +62,7 @@ export default ({ app }, inject) => {
               y: -yValue * moveForward,
               rotationY: xValue * rotationForward,
               rotationX: yValue * rotationForward,
-              ease: "power2.out",
+              ease: 'power2.out',
             });
           }
         }
@@ -72,7 +73,7 @@ export default ({ app }, inject) => {
               duration: 1,
               rotationY: 0,
               rotationX: 0,
-              ease: "power2.out",
+              ease: 'power2.out',
             });
           }
           if ($forward !== null) {
@@ -82,18 +83,18 @@ export default ({ app }, inject) => {
               y: 0,
               rotationY: 0,
               rotationX: 0,
-              ease: "power2.out",
+              ease: 'power2.out',
             });
           }
         }
         if (
-          (event.type === "mousemove" && !TouchHoverEvents.touched) ||
-          event.type === "touchstart"
+          (event.type === 'mousemove' && !TouchHoverEvents.touched) ||
+          event.type === 'touchstart'
         ) {
           play();
         } else if (
-          (event.type === "mousemove" && !TouchHoverEvents.touched) ||
-          event.type === "customTouchend"
+          (event.type === 'mousemove' && !TouchHoverEvents.touched) ||
+          event.type === 'customTouchend'
         ) {
           reverse();
         }
