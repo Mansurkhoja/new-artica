@@ -2,12 +2,12 @@
   <main class="content">
     <!-- <nuxt-link to="/contacts">s</nuxt-link> -->
     <div class="m-slider">
-      <section class="home m-slider-slide">
+      <section class="home m-slider-slide" :class="{'active': home.slideIndex === 0}">
         <div class="container container_display">
           <Logo class="home-logo" />
         </div>
       </section>
-      <section class="fast-categories m-slider-slide">
+      <section class="fast-categories m-slider-slide" :class="{'active': home.slideIndex === 1}">
         <div class="container container_display">
           <div class="fast-categories__container row">
             <div 
@@ -66,7 +66,7 @@
         v-for="(project, idx) in projects"
         :key="idx"
         class="project-preview m-slider-slide"
-        :class="`${project.name}-preview`"
+        :class="[{'active': home.slideIndex + 2 === idx}, `${project.name}-preview`]"
       >
         <div class="container container_display">
           <div class="project-preview__container row">
@@ -147,8 +147,8 @@
 <script>
 import Logo from '~/assets/icons/logo.svg?inline';
 import Hammer from '@squadette/hammerjs';
+import { TouchHoverEvents } from '@/helpers'
 const speed = 1;
-
 export default {
   name: "IndexPage",
   components: {
@@ -316,6 +316,10 @@ export default {
     };
   },
   computed: {
+    sqs () {
+      console.log(this.home.slide);
+      return 2
+    },
     isPreloaderFinished() {
       const isFinished = this.$store.getters["preloader/isFinished"];
       return isFinished;
@@ -327,7 +331,6 @@ export default {
   watch: {
     isPreloaderFinished() {
       this.init().then(() => {
-        this.$animateCatCards();
         this.home.enterAnimation.play().eventCallback("onComplete", () => {
         });
       });
@@ -343,7 +346,6 @@ export default {
     this.$splitting()
     this.$animateFake3d()
     if (this.isPreloaderFinished) {
-      this.$animateCatCards();
       this.init().then(() => {
         this.home.enterAnimation.play();
       });
@@ -374,18 +376,13 @@ export default {
       this.$gsap.to(this.home.pagtrigger, {duration:speed, scaleX:0, xPercent:100*(this.home.slideIndex-1), ease:'power2.in'})
     },
     change(index) {
-      for(let $this of this.home.slides) {
-        $this.classList.remove('active');
-      }
-      for(let $this of this.home.pagitems) {
-        $this.classList.remove('active');
-      }
-      // this.home.pagitems[index].classList.add('active');
+      // for(let $this of this.home.slides) {
+      //   $this.classList.remove('active');
+      // }
       this.home.slide = this.home.slides[index];
-      this.home.slide.classList.add('active');
+      // this.home.slide.classList.add('active');
       this.home.slideIndex<index ? this.home.direction='next' : this.home.direction='prev';
       this.home.slideIndex=index;
-
       if(this.home.direction=='next') {
         this.home.back.progress()==0 ? this.home.back.reverse(0) : this.home.back.reverse();
         this.home.back.eventCallback('onReverseComplete',()=>{
@@ -399,7 +396,6 @@ export default {
           this.home.secondary.play(0);
         })
       }
-
       if(this.home.swiped==true) {
         this.home.swiped=false;
         if(this.home.direction=='next') {
@@ -414,7 +410,6 @@ export default {
           this.home.triggerAnimation.play();
         });
       }
-
       this.home.forward.eventCallback('onComplete',()=>{
         this.home.available = true;
       })
@@ -437,7 +432,6 @@ export default {
       this.home.triggerNextAnimation = gsap.timeline({paused:true}),
       this.home.triggerPrevAnimation = gsap.timeline({paused:true}),
       this.home.enterAnimation = gsap.timeline({paused:true});
-
       //trigger
       this.home.triggerAnimation
         .to(this.home.pagtrigger, {duration:speed*2, xPercent:100*index, ease:'power2.inOut'})
@@ -451,7 +445,6 @@ export default {
         .to(this.home.pagtrigger, {duration:speed*2, xPercent:100*(index-1), ease:'power2.inOut'})
         .to(this.home.pagtrigger, {duration:speed, scaleX:1.5, ease:'power2.in'},`-=${speed*2}`)
         .to(this.home.pagtrigger, {duration:speed, scaleX:1, ease:'power2.out'},`-=${speed}`)
-
       //categories
       if(this.home.slide.classList.contains('fast-categories')) {
         
@@ -479,7 +472,6 @@ export default {
             $textchars = $this.querySelectorAll('.project-preview__text .char'),
             $titlechars = $this.querySelectorAll('.project-preview__title .char'),
             $linkchars = $this.querySelectorAll('.project-preview__link .char');
-
         this.home.forward
           .set($this, {autoAlpha:1})
           .fromTo($image, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut',
@@ -521,7 +513,6 @@ export default {
           .fromTo($icon, {yPercent:-50}, {duration:speed, yPercent:0, ease:'power2.out'}, `-=${speed}`)
           .fromTo($iconletters, {autoAlpha:0,yPercent:-100}, {duration:speed*0.7,autoAlpha:1,yPercent:0,ease:'power2.out', stagger:{amount:speed*0.3, from:'end'}},`-=${speed}`)
           .fromTo($iconback, {yPercent:-100,autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.out'},`-=${speed}`)
-
         this.home.enterAnimation
           .set($this, {autoAlpha:1})
           .fromTo($image, {autoAlpha:0, scale:0.95}, {immediateRender:false,duration:speed, autoAlpha:1, scale:1, ease:'power2.inOut'})
@@ -530,10 +521,14 @@ export default {
           .fromTo($textchars, {autoAlpha:0}, {duration:speed*0.6, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}},`-=${speed}`)
           .fromTo($linkchars, {autoAlpha:0}, {duration:speed*0.6, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}},`-=${speed}`)
           //icon label
-          .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'},`-=${speed}`)
-          .fromTo($iconletters, {autoAlpha:0}, {duration:speed*0.6,autoAlpha:1,ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}}, `-=${speed}`)
-          //.fromTo($iconback, {autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.inOut'}, `-=${speed}`)
-        
+          // .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'},`-=${speed}`)
+          // .fromTo($iconletters, {autoAlpha:0}, {duration:speed*0.6,autoAlpha:1,ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}}, `-=${speed}`)
+          // //.fromTo($iconback, {autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.inOut'}, `-=${speed}`)
+          .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'}, `-=${speed}`)
+          .fromTo($icon, {yPercent:50}, {duration:speed, yPercent:0, ease:'power2.out'}, `-=${speed}`)
+          .fromTo($iconletters, {autoAlpha:0,yPercent:100}, {duration:speed*0.7,autoAlpha:1,yPercent:0,ease:'power2.out', stagger:{amount:speed*0.3}}, `-=${speed}`)
+          .fromTo($iconback, {yPercent:100,autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.out'},`-=${speed}`)
+
         if(this.home.slide.classList.contains('navigator-preview')) {
           let $images = this.home.slide.querySelectorAll('.image');
           this.home.secondary
@@ -550,7 +545,6 @@ export default {
           this.home.secondary
             .fromTo($image, {scale:0.5}, {duration:speed*2, scale:1, ease:'power2.out'})
         } 
-
       }
       //home
       else {
@@ -562,7 +556,6 @@ export default {
           .fromTo($logo, {scale:1.1}, {immediateRender:false, duration:speed, scale:1, ease:'power2.out'})
           .fromTo($words, {autoAlpha:0}, {duration:speed*0.8, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.2, from:'random'}}, `-=${speed}`)
         this.home.back = this.home.forward;
-
         this.home.enterAnimation = this.home.forward;
         // if(App.initialized) {
         //   this.enterAnimation = this.forward;
@@ -571,9 +564,7 @@ export default {
         //     .set([$words, $this], {autoAlpha:1})
         //     .fromTo($logo, {scale:1.1, autoAlpha:0}, {duration:Preloader.duration_final, scale:1, autoAlpha:1, ease:'power3.inOut'})
         // }
-
       }
-
       if(!this.home.initialized) {
         // let delay = App.initialized?0:Preloader.delay;
         let delay = 0;
@@ -581,7 +572,6 @@ export default {
         this.home.lineAnimation = gsap.timeline({paused:true})
           .fromTo(this.home.pagination, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'})
           .fromTo(this.home.pagination, {y:20}, {duration:speed, y:0, ease:'power2.out'}, `-=${speed}`)
-
         this.home.enterAnimation.eventCallback('onStart', ()=>{
           // gsap.set(window.$container, {autoAlpha:1});
           let wrapper = document.querySelector('.content')
@@ -594,7 +584,6 @@ export default {
             this.home.lineAnimation.play();
         })
       }
-
       resolve();
     })},
     keyListener (event) {
@@ -619,6 +608,75 @@ export default {
         nullTargetWarn: false,
         trialWarn: false,
       });
+      function getRandom (min, max) {
+        const rand = min + Math.random() * (max + 1 - min);
+        return Math.floor(rand);
+      }
+      for (const $card of document.querySelectorAll('.fast-categories-block')) {
+        const $icon = $card.querySelector('.icon'),
+              $text = $card.querySelector('.label-item__title'),
+              $chars = $card.querySelectorAll('.char'),
+              $bg = $card.querySelector('.fast-categories-block__bg'),
+              $item = $card.querySelector('.fast-categories-block__container');
+        let rotation = 0,
+            interval;
+        const letters = gsap
+          .timeline({ paused: true })
+          .fromTo(
+            $bg,
+            { scale: 0.9 },
+            { duration: 1 / 2, scale: 1, ease: 'power2.inOut' }
+          )
+          .fromTo(
+            $text,
+            { yPercent: 100, autoAlpha: 0 },
+            { duration: 1, yPercent: 0, autoAlpha: 1, ease: 'power2.inOut' },
+            `-=${1 / 2}`
+          )
+          .fromTo(
+            $chars,
+            { autoAlpha: 0, yPercent: 100 },
+            {
+              duration: 1 * 0.7,
+              autoAlpha: 1,
+              yPercent: 0,
+              ease: 'power2.inOut',
+              stagger: { amount: 1 * 0.3 }
+            },
+            `-=${1}`
+          );
+
+        function randomAnimation () {
+          if (getRandom(1, 2) === 1 && rotation < 360) {
+            rotation = rotation + 180
+          } else if (rotation > -360) {
+            rotation = rotation - 180
+          }
+          $icon.setAttribute('style', `transform:rotate(${rotation}deg)`)
+          interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
+        }
+
+        interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000);
+
+        $item.addEventListener('mouseenter', event);
+        $item.addEventListener('mouseleave', event);
+        $item.addEventListener('touchstart', event);
+        $item.addEventListener('customTouchend', event);
+
+        function event (event) {
+          if ((event.type === 'mouseenter' && !TouchHoverEvents.touched) || event.type === 'touchstart') {
+            letters.play()
+            $icon.setAttribute('style', 'transform:rotation(0deg)')
+            clearTimeout(interval)
+          } else if (
+            (event.type === 'mouseleave' && !TouchHoverEvents.touched) ||
+            event.type === 'customTouchend'
+          ) {
+            letters.reverse()
+            interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
+          }
+        }
+      }
       //flag
       this.home.available=true;
       this.home.pagination = document.querySelector('.m-slider-pagination');
@@ -631,13 +689,13 @@ export default {
       // this.home.slideIndex = 0;
       // this.home.slide = this.home.slides[0];
       this.home.slide = this.home.slides[this.home.slideIndex];
-      this.home.slides.forEach(($element,index)=>{
-        if($element.classList.contains('active')) {
-          this.home.slideIndex = index;
-          this.home.slide = $element;
-        }
-      })
-      this.home.slide.classList.add('active');
+      // this.home.slides.forEach(($element,index)=>{
+      //   if($element.classList.contains('active')) {
+      //     this.home.slideIndex = index;
+      //     this.home.slide = $element;
+      //   }
+      // })
+      // this.home.slide.classList.add('active');
       //animations
       gsap.set(this.home.pagtrigger, {xPercent:(100*this.home.slideIndex)});
       this.home.swipearea = new Hammer.Manager(this.home.slider);
@@ -682,7 +740,6 @@ export default {
           swipeForward = false,
           swipeBack  = false,
           direction = false;
-
       this.home.swipearea.on("panleft panend panstart panup pandown panright", (event)=>{
         cursorPos.current.x = event.center.x;
         cursorPos.current.y = event.center.y;
@@ -732,13 +789,11 @@ export default {
                 direction = 'horizontal';
               }
             }
-
             if(direction == 'vertical') {
               pos = event.center.y - cursorPos.start.y;
             } else if(direction == 'horizontal') {
               pos = event.center.x - cursorPos.start.x;
             }
-
             //управление временем анимации
             if(event.type=='panup' || event.type=='panleft') {
               if(swipeBack == false) {
@@ -778,14 +833,12 @@ export default {
                 }
               }
             }
-
             //последняя корректировка
             if(this.home.animationTime>maxTime) {
               this.home.animationTime = maxTime;
             } else if(this.home.animationTime==-0 || this.home.animationTime<0) {
               this.home.animationTime = 0;
             }
-
             if(swipeForward == true) {
               this.home.back.reverse(speed - this.home.animationTime);
               this.home.triggerNextAnimation.play(this.home.animationTime);

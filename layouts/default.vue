@@ -41,6 +41,7 @@ export default {
   mounted () {
     this.addClassTheme()
     this.$touchHoverEvents()
+    // this.$animateFake3d(this.animation1, this.animation2)
   },
   methods: {
     addClassTheme () {
