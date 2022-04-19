@@ -42,7 +42,7 @@ export default {
     { src: '~/plugins/customMouse.js', mode: 'client' },
     { src: '~/plugins/touchHoverEvents.js', mode: 'client' },
     { src: '~/plugins/animateFake3d.js', mode: 'client' },
-    { src: '~/plugins/headerAnimations.js', mode: 'client' },
+    // { src: '~/plugins/headerAnimations.js', mode: 'client' },
     { src: '~/plugins/splitting.js', mode: 'client' },
     { src: '~/plugins/animateCatCards.js', mode: 'client' },
 

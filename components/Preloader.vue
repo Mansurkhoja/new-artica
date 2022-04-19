@@ -34,8 +34,8 @@ export default {
       this.$splitting()
       setTimeout(() => {
         this.$store.commit("preloader/setFinishDelay");
-        this.$headerAnimations().fadeIn();
-        this.$animateFake3d(this.animation1, this.animation2)
+        // this.$animateFake3d(this.animation1, this.animation2)
+        this.$animateFake3d()
         document.querySelector('.wrapper').classList.remove('disabled');
       }, this.delay * 2000);
     });

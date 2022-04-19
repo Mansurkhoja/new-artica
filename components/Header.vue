@@ -1,5 +1,5 @@
 <template>
-  <header class="header" style="opacity: 0; visibility: hidden">
+  <header ref="header" class="header" style="opacity: 0; visibility: hidden">
     <div class="container">
       <div class="header__container">
         <div class="logo">
@@ -38,7 +38,6 @@
 
 <script>
 import Logo from '~/assets/icons/logo.svg?inline';
-
 export default {
   name: 'NuxtHeader',
   components: {
@@ -46,18 +45,34 @@ export default {
   },
   data() {
     return {
+      refHeader: null,
       isHover: false,
       isNavOpen: false,
+      speed: 1,
+      isVisible: false,
+      animation: null
     };
   },
   computed: {
-    // isDark () {
-    //   const isDark = this.$store.getters['theme/isDark']
-    //   return isDark
-    // }
+    isPreloaderDelay () {
+      const isFinishedDelay = this.$store.getters['preloader/isFinishedDelay']
+      return isFinishedDelay
+    }
+  },
+  watch: {
+    isPreloaderDelay(val) {
+     if (val === true) {
+       this.fadeIn()
+     }
+    },
   },
   mounted() {
-    this.$headerAnimations().init()
+    this.refHeader = this.$refs.header
+    if (this.isPreloaderDelay) {
+      this.fadeIn()
+    }
+    // this.$headerAnimations().fadeIn();
+    // this.$headerAnimations(this.$refs.header).init()
   },
   methods: {
     opens() {
@@ -68,6 +83,45 @@ export default {
     },
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
+    },
+    fadeIn() {
+      this.$gsap.to(this.refHeader, { duration: this.speed, autoAlpha: 1, ease: 'power2.inOut' });
+    },
+    show() {
+      if (!this.isVisible) {
+        this.isVisible = true;
+        if (this.animation) this.animation.pause();
+        this.animation = this.$gsap
+          .timeline()
+          .to(this.refHeader, { yPercent: 0, duration: this.speed, ease: 'power2.out' });
+      }
+    },
+    hide() {
+      // if (
+      //   this.isVisible &&
+      //   Scroll.y < -this.$header.getBoundingClientRect().height &&
+      //   !Nav.state
+      // ) {
+      //   this.isVisible = false;
+      //   if (this.animation) this.animation.pause();
+      //   this.animation = gsap
+      //     .timeline()
+      //     .to(this.$header, { yPercent: -100, duration: speed, ease: 'power2.inOut' });
+      // }
+    },
+    init() {
+      this.isVisible = true;
+      this.animation = this.$gsap
+        .timeline({ paused: true })
+        .to(this.refHeader, { yPercent: -100, duration: this.speed, ease: 'power2.in' });
+
+      // window.addEventListener('ScrollBottom', () => {
+      //   this.hide();
+      // });
+
+      // window.addEventListener('ScrollTop', () => {
+      //   this.show();
+      // });
     },
   },
 };

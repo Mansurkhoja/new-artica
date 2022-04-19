@@ -736,7 +736,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.isPreloaderFinished);
     if (this.isPreloaderFinished) {
       this.$animateCatCards();
       Home.init().then(() => {
