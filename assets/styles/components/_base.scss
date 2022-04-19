@@ -12,7 +12,7 @@ html {
     }
 }
 body {
-    position: fixed;
+    // position: fixed;
     line-height: 1.25;
     font-family: $font-family-base;
     color: rgba(var(--item-color));
@@ -355,7 +355,7 @@ p {
     left: 0;
     z-index: 1000;
     display: flex;
-    background-color: rgba(var(--page-bg));
+    background-color: rgba(var(--page-bg), 1);
     transition: 0.5s ease-out;
     cursor: none;
     &__icon {
@@ -385,7 +385,7 @@ p {
     }
     @include xs-max {
         &__icon {
-            width: 80vw;
+            width: 80%;
         }
     }
 }

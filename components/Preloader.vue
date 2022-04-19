@@ -1,5 +1,5 @@
 <template>
-  <div ref="preloader" class="preloader">
+  <div ref="preloader" class="preloader container">
     <Logo ref="preloaderIcon" class="preloader__icon" />
   </div>
 </template>
@@ -31,11 +31,10 @@ export default {
 
     this.init().then(() => {
       this.$store.commit("preloader/setFinish");
-      this.$splitting()
+      // this.$splitting()
       setTimeout(() => {
         this.$store.commit("preloader/setFinishDelay");
-        // this.$animateFake3d(this.animation1, this.animation2)
-        this.$animateFake3d()
+        // this.$animateFake3d()
         document.querySelector('.wrapper').classList.remove('disabled');
       }, this.delay * 2000);
     });

@@ -317,6 +317,7 @@
     stroke: rgba(var(--item-bg), 1);
     transition: fill $trs2, stroke $trs2;
     width: 768px;
+    will-change: transform;
     @include xl-max {
         width: 40vw;
     }

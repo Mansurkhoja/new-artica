@@ -1,9 +1,9 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  router: {
-    base: '/new-artica/'
-  },
+  // router: {
+  //   base: '/new-artica/'
+  // },
   // server: {
   //   host: '0.0.0.0',
   //   port: 8000
@@ -42,10 +42,8 @@ export default {
     { src: '~/plugins/customMouse.js', mode: 'client' },
     { src: '~/plugins/touchHoverEvents.js', mode: 'client' },
     { src: '~/plugins/animateFake3d.js', mode: 'client' },
-    // { src: '~/plugins/headerAnimations.js', mode: 'client' },
     { src: '~/plugins/splitting.js', mode: 'client' },
-    { src: '~/plugins/animateCatCards.js', mode: 'client' },
-
+    { src: '~/plugins/animateCatCards.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

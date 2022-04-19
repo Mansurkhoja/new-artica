@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-const speed = 1;
+// const speed = 1;
 
 export const TouchHoverEvents = {
   targets: 'a, [data-cursor], button, label, tr, .jsTouchHover, .js-3d-object',
@@ -195,45 +195,3 @@ export const Circle = {
     gsap.to(this.parent, { autoAlpha: 1, duration: 1, ease: 'power2.inOut' });
   },
 };
-// export const Header = {
-//   $header: null,
-//   init: function () {
-//     this.isVisible = true;
-//     this.animation = gsap
-//       .timeline({ paused: true })
-//       .to(this.$header, { yPercent: -100, duration: speed, ease: 'power2.in' });
-
-//     window.addEventListener('ScrollBottom', () => {
-//       this.hide();
-//     });
-
-//     window.addEventListener('ScrollTop', () => {
-//       this.show();
-//     });
-//   },
-//   hide: function () {
-//     if (
-//       this.isVisible &&
-//       Scroll.y < -this.$header.getBoundingClientRect().height &&
-//       !Nav.state
-//     ) {
-//       this.isVisible = false;
-//       if (this.animation) this.animation.pause();
-//       this.animation = gsap
-//         .timeline()
-//         .to(this.$header, { yPercent: -100, duration: speed, ease: 'power2.inOut' });
-//     }
-//   },
-//   show: function () {
-//     if (!this.isVisible) {
-//       this.isVisible = true;
-//       if (this.animation) this.animation.pause();
-//       this.animation = gsap
-//         .timeline()
-//         .to(this.$header, { yPercent: 0, duration: speed, ease: 'power2.out' });
-//     }
-//   },
-//   fadeIn: function () {
-//     gsap.to(this.$header, { duration: speed, autoAlpha: 1, ease: 'power2.inOut' });
-//   },
-// };
