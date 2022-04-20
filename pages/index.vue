@@ -2,12 +2,12 @@
   <main class="content">
     <!-- <nuxt-link to="/contacts">s</nuxt-link> -->
     <div class="m-slider">
-      <section class="home m-slider-slide" :class="{'active': home.slideIndex === 0}">
+      <section class="home m-slider-slide">
         <div class="container container_display">
           <Logo class="home-logo" />
         </div>
       </section>
-      <section class="fast-categories m-slider-slide" :class="{'active': home.slideIndex === 1}">
+      <section class="fast-categories m-slider-slide">
         <div class="container container_display">
           <div class="fast-categories__container row">
             <div 
@@ -66,7 +66,7 @@
         v-for="(project, idx) in projects"
         :key="idx"
         class="project-preview m-slider-slide"
-        :class="[{'active': home.slideIndex + 2 === idx}, `${project.name}-preview`]"
+        :class="`${project.name}-preview`"
       >
         <div class="container container_display">
           <div class="project-preview__container row">
@@ -337,12 +337,17 @@ export default {
     },
     isHashZero(val) {
       if (!val && this.home.slideIndex !== 0) {
-        this.change(0)
+       this.change(0)
+      } if (!this.home.slide.classList.contains('active')) {
+        this.home.slide.classList.add('active')
       }
+      console.log('watch');
+      // this.home.slide.classList.add('active');
     }
   },
   mounted() {
     this.home.slideIndex = this.$route?.hash ? this.$route.hash.replace( /^\D+/g, '') : 0
+    // this.home.slideIndex =  0
     this.$splitting()
     this.$animateFake3d()
     if (this.isPreloaderFinished) {
@@ -376,11 +381,11 @@ export default {
       this.$gsap.to(this.home.pagtrigger, {duration:speed, scaleX:0, xPercent:100*(this.home.slideIndex-1), ease:'power2.in'})
     },
     change(index) {
-      // for(let $this of this.home.slides) {
-      //   $this.classList.remove('active');
-      // }
+      for(let $this of this.home.slides) {
+        $this.classList.remove('active');
+      }
       this.home.slide = this.home.slides[index];
-      // this.home.slide.classList.add('active');
+      this.home.slide.classList.add('active');
       this.home.slideIndex<index ? this.home.direction='next' : this.home.direction='prev';
       this.home.slideIndex=index;
       if(this.home.direction=='next') {
@@ -417,7 +422,8 @@ export default {
         this.home.available = true;
       })      
       if (index !== 0) {
-        this.$router.push({hash: `slide-${index}`})
+         this.$router.push({hash: `slide-${index}`})
+        // window.location.href = '#yy'
       }
     },
     getAnimations() {return new Promise((resolve, reject)=>{
@@ -695,7 +701,13 @@ export default {
       //     this.home.slide = $element;
       //   }
       // })
-      // this.home.slide.classList.add('active');
+      if (this.home.slide) {
+        this.home.slide.classList.add('active');
+      } else {
+        this.home.slide = this.home.slides[0]
+        this.home.slide.classList.add('active');
+      }
+      
       //animations
       gsap.set(this.home.pagtrigger, {xPercent:(100*this.home.slideIndex)});
       this.home.swipearea = new Hammer.Manager(this.home.slider);
