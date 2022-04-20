@@ -341,13 +341,11 @@ export default {
       } if (!this.home.slide.classList.contains('active')) {
         this.home.slide.classList.add('active')
       }
-      console.log('watch');
       // this.home.slide.classList.add('active');
     }
   },
   mounted() {
     this.home.slideIndex = this.$route?.hash ? this.$route.hash.replace( /^\D+/g, '') : 0
-    // this.home.slideIndex =  0
     this.$splitting()
     this.$animateFake3d()
     if (this.isPreloaderFinished) {
