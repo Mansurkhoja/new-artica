@@ -21,6 +21,7 @@
     "nuxt-gsap-module": "^1.7.0",
     "nuxt-lazysizes": "^1.4.1",
     "splitting": "^1.0.6",
+    "virtual-scroll": "^2.2.1",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",

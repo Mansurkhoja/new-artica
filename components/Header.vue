@@ -3,31 +3,20 @@
     <div class="container">
       <div class="header__container">
         <div class="logo">
-          <NuxtLink to="/" class="logo__link">
+          <NuxtLink v-if="$route.name !== 'index'" to="/" class="logo__link">
             <Logo class="logo__icon" />
           </NuxtLink>
+          <span v-else class="logo__link" @click="homeFirstSlide" data-cursor>
+            <Logo class="logo__icon" />
+          </span>
         </div>
-        <!--.lang-toggle.lang-toggle__current ru
-            ul.lang-toggle__list
-              li.lang-toggle__item
-                a(href="javascript:void(0);").lang-toggle__toggle 
-              li.lang-toggle__item
-                a(href="javascript:void(0);").lang-toggle__toggle 
-            -->
         <div class="mode-toggle">
           <span class="mode-toggle__trigger" data-cursor @click="$emit('updateTheme')"></span>
-          <!-- <a
-            class="mode-toggle__trigger js-dark-toggle"
-            href="javascript:void(0);"
-          ></a> -->
         </div>
         <div
+          ref="toggle"
           data-cursor
           class="nav-toggle"
-          :class="{ hover: isHover, disabled: isNavOpen }"
-          @click="toggleNav"
-          @mouseleave="hoverNav"
-          @mouseenter="hoverNav"
         >
           <span /><span /><span />
         </div>
@@ -38,6 +27,8 @@
 
 <script>
 import Logo from '~/assets/icons/logo.svg?inline';
+import {Home} from '~/animations/home'
+const speed = 1
 export default {
   name: 'NuxtHeader',
   components: {
@@ -46,17 +37,21 @@ export default {
   data() {
     return {
       refHeader: null,
-      isHover: false,
-      isNavOpen: false,
-      speed: 1,
+      refToggle: null,
       isVisible: false,
-      animation: null
+      animation: null,
+      // animationNav: null,
+      // toggleNavDisable: false,
+      // isToggle: true
     };
   },
   computed: {
-    isPreloaderDelay () {
+    isPreloaderDelay() {
       const isFinishedDelay = this.$store.getters['preloader/isFinishedDelay']
       return isFinishedDelay
+    },
+    isNav() {
+      return this.$store.getters['nav/isNav']
     }
   },
   watch: {
@@ -68,24 +63,27 @@ export default {
   },
   mounted() {
     this.refHeader = this.$refs.header
+    // this.refToggle = this.$refs.toggle
     if (this.isPreloaderDelay) {
       this.fadeIn()
     }
-    // this.$headerAnimations().fadeIn();
-    // this.$headerAnimations(this.$refs.header).init()
+    // this.animationToggle =  this.$gsap.timeline({paused:true})
+    //     .fromTo(this.refToggle.querySelector('span:first-child'), {y:0}, {duration:speed*0.5, y:8, ease:'power2.in'})
+    //     .fromTo(this.refToggle.querySelector('span:last-child'), {y:0}, {duration:speed*0.5, y:-8, ease:'power2.in'}, `-=${speed*0.5}`)
+    //     .fromTo(this.refToggle.querySelector('span:nth-child(2)'), {autoAlpha:1}, {duration:speed*0.25, autoAlpha:0}, `-=${speed*0.25}`)   //0.5
+    //     .fromTo(this.refToggle.querySelector('span:first-child'), {rotation:0}, {duration:speed*0.75, rotation:45, ease:'power2.out'})
+    //     .fromTo(this.refToggle.querySelector('span:last-child'), {rotation:0}, {duration:speed*0.75, rotation:135, ease:'power2.out'}, `-=${speed*0.75}`) //1.25
   },
   methods: {
-    opens() {
-      this.$store.commit("menu/showMenu");
-    },
-    hoverNav() {
-      this.isHover = !this.isHover;
-    },
-    toggleNav() {
-      this.isNavOpen = !this.isNavOpen;
+    homeFirstSlide() {
+      let hash = this.$route?.hash ? this.$route.hash.replace( /^\D+/g, '') : 0
+      if (hash > 0) {
+        Home.change(0)
+      }
+      this.$router.push({hash: ''})
     },
     fadeIn() {
-      this.$gsap.to(this.refHeader, { duration: this.speed, autoAlpha: 1, ease: 'power2.inOut' });
+      this.$gsap.to(this.refHeader, { duration: speed, autoAlpha: 1, ease: 'power2.inOut' });
     },
     show() {
       if (!this.isVisible) {
@@ -93,7 +91,7 @@ export default {
         if (this.animation) this.animation.pause();
         this.animation = this.$gsap
           .timeline()
-          .to(this.refHeader, { yPercent: 0, duration: this.speed, ease: 'power2.out' });
+          .to(this.refHeader, { yPercent: 0, duration: speed, ease: 'power2.out' });
       }
     },
     hide() {
@@ -113,7 +111,7 @@ export default {
       this.isVisible = true;
       this.animation = this.$gsap
         .timeline({ paused: true })
-        .to(this.refHeader, { yPercent: -100, duration: this.speed, ease: 'power2.in' });
+        .to(this.refHeader, { yPercent: -100, duration: speed, ease: 'power2.in' });
 
       // window.addEventListener('ScrollBottom', () => {
       //   this.hide();
@@ -123,6 +121,24 @@ export default {
       //   this.show();
       // });
     },
+    // toggleNav() {
+    //   if(this.isToggle===true) {
+    //     this.isToggle=false;
+    //     if(this.isNav===false) {
+    //       this.toggleNavDisable = true
+    //       this.$store.dispatch('nav/updateNav')
+    //        this.animationToggle.play().eventCallback("onComplete",()=>{
+    //             this.isToggle=true;
+    //         });
+    //     } else {
+    //       this.toggleNavDisable = false
+    //        this.$store.dispatch('nav/updateNav')
+    //        this.animationToggle.reverse(0).eventCallback("onReverseComplete",()=>{
+    //             this.isToggle=true;
+    //         });
+    //     }
+    //   }
+    // },
   },
 };
 </script>

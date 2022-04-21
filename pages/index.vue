@@ -1,6 +1,5 @@
 <template>
   <main class="content">
-    <!-- <nuxt-link to="/contacts">s</nuxt-link> -->
     <div class="m-slider">
       <section class="home m-slider-slide">
         <div class="container container_display">
@@ -132,8 +131,7 @@
           <span class="m-slider-pagination__item" />
           <a
             class="m-slider-pagination__link"
-            :class="{'active': idx === home.slideIndex}"
-            :href="`#slide-${idx}`"
+            :href="`#${idx}`"
             v-for="(i, idx) in 8"
             :key="idx"
           />
@@ -146,9 +144,7 @@
 
 <script>
 import Logo from '~/assets/icons/logo.svg?inline';
-import Hammer from '@squadette/hammerjs';
-import { TouchHoverEvents } from '@/helpers'
-const speed = 1;
+import {Home} from '~/animations/home'
 export default {
   name: "IndexPage",
   components: {
@@ -156,8 +152,6 @@ export default {
   },
   data() {
     return {
-      // animation: null,
-      // href: 0,
       categories: [
         {
           name: "marketing",
@@ -289,586 +283,53 @@ export default {
           name: "twonp",
           categoryName: 'Веб-дизайн'
         },
-      ],
-      home: {
-        initialized: null,
-        swipearea: null,
-        available: true,
-        lineAnimation: null,
-        pagtrigger: null,
-        pagination: null,
-        pagitems: null,
-        slides: null,
-        slider: null,
-        slideIndex: 0,
-        slide: null,
-        direction: null,
-        back: null,
-        forward: null,
-        secondary: null,
-        swiped: false,
-        triggerNextAnimation: null,
-        animationTime: 0,
-        triggerPrevAnimation: null,
-        triggerAnimation: null,
-        enterAnimation: null
-      }
+      ]
     };
   },
   computed: {
-    sqs () {
-      console.log(this.home.slide);
-      return 2
-    },
     isPreloaderFinished() {
       const isFinished = this.$store.getters["preloader/isFinished"];
       return isFinished;
     },
-    isHashZero() {
-      return this.$route.hash
-    }
   },
   watch: {
     isPreloaderFinished() {
-      this.init().then(() => {
-        this.home.enterAnimation.play().eventCallback("onComplete", () => {
-        });
-      });
+      Home.init().then(() => {
+      // Home.enterAnimation.play().eventCallback("onComplete", () => {
+      //   console.log("enterAnimationComplete");
+      // });
+      Home.enterAnimation.play()
+    });
     },
-    isHashZero(val) {
-      if (!val && this.home.slideIndex !== 0) {
-       this.change(0)
-      } if (!this.home.slide.classList.contains('active')) {
-        this.home.slide.classList.add('active')
-      }
-      // this.home.slide.classList.add('active');
-    }
+  },
+  beforeMount() {
+    // window.removeEventListener('keyup')
+    // window.removeEventListener('keyup', this.scrollListener);
   },
   mounted() {
-    this.home.slideIndex = this.$route?.hash ? this.$route.hash.replace( /^\D+/g, '') : 0
     this.$splitting()
     this.$animateFake3d()
+    let hash = this.$route?.hash ? this.$route.hash.replace( /^\D+/g, '') : 0
+    hash = hash ? Number(hash) : 0
+    if (hash >=0 && hash <= 7) {
+      Home.slideIndex = hash
+    }
     if (this.isPreloaderFinished) {
-      this.init().then(() => {
-        this.home.enterAnimation.play();
-      });
+      this.$nextTick(() => {
+      Home.init().then(() => {
+        Home.enterAnimation.play();
+      });})
     }
   },
   beforeDestroy() {
-    this.home.enterAnimation.reverse(0);
-    this.destroy();
+    Home.enterAnimation.reverse(0);
+    Home.destroy();
   },
   methods: {
-    scrollListener (event) {
-      if(event.target.closest('.m-slider')!==null && this.home.available) {
-        if(event.deltaY>0 && this.home.slides.length>this.home.slideIndex+1) {
-          this.home.available=false;
-          this.change(this.home.slideIndex+1);
-        } else if(event.deltaY<0 && this.home.slideIndex>0) {
-          this.home.available=false;
-          this.change(this.home.slideIndex-1);
-        }
-      }
-    },
-    destroy() {
-      this.home.initialized = false;
-      this.home.swipearea.destroy();
-      window.removeEventListener("wheel", this.scrollListener, false);
-      window.removeEventListener("keyup", this.keyListener, false);
-      this.home.lineAnimation.reverse();
-      this.$gsap.to(this.home.pagtrigger, {duration:speed, scaleX:0, xPercent:100*(this.home.slideIndex-1), ease:'power2.in'})
-    },
-    change(index) {
-      for(let $this of this.home.slides) {
-        $this.classList.remove('active');
-      }
-      this.home.slide = this.home.slides[index];
-      this.home.slide.classList.add('active');
-      this.home.slideIndex<index ? this.home.direction='next' : this.home.direction='prev';
-      this.home.slideIndex=index;
-      if(this.home.direction=='next') {
-        this.home.back.progress()==0 ? this.home.back.reverse(0) : this.home.back.reverse();
-        this.home.back.eventCallback('onReverseComplete',()=>{
-          this.home.forward.play();
-          this.home.secondary.play(0);
-        })
-      } else {
-        this.home.forward.progress()==0 ? this.home.forward.reverse(0) : this.home.forward.reverse();
-        this.home.forward.eventCallback('onReverseComplete',()=>{
-          this.home.back.play();
-          this.home.secondary.play(0);
-        })
-      }
-      if(this.home.swiped==true) {
-        this.home.swiped=false;
-        if(this.home.direction=='next') {
-          this.home.triggerNextAnimation.play(this.home.animationTime);
-        } else {
-          this.home.triggerPrevAnimation.play(this.home.animationTime);
-        }
-        this.home.animationTime=0;
-        this.getAnimations();
-      } else {
-        this.getAnimations().then(()=>{
-          this.home.triggerAnimation.play();
-        });
-      }
-      this.home.forward.eventCallback('onComplete',()=>{
-        this.home.available = true;
-      })
-      this.home.back.eventCallback('onComplete',()=>{
-        this.home.available = true;
-      })      
-      if (index !== 0) {
-         this.$router.push({hash: `slide-${index}`})
-        // window.location.href = '#yy'
-      }
-    },
-    getAnimations() {return new Promise((resolve, reject)=>{
-      let index = this.home.slideIndex,
-          $this = this.home.slide;
-      const gsap = this.$gsap;
-      //второстепенные анимации
-      this.home.secondary = gsap.timeline(),
-      this.home.forward = gsap.timeline({paused:true}),
-      this.home.back = gsap.timeline({paused:true}),
-      this.home.triggerAnimation = gsap.timeline({paused:true}),
-      this.home.triggerNextAnimation = gsap.timeline({paused:true}),
-      this.home.triggerPrevAnimation = gsap.timeline({paused:true}),
-      this.home.enterAnimation = gsap.timeline({paused:true});
-      //trigger
-      this.home.triggerAnimation
-        .to(this.home.pagtrigger, {duration:speed*2, xPercent:100*index, ease:'power2.inOut'})
-        .to(this.home.pagtrigger, {duration:speed, scaleX:1.5, ease:'power2.in'},`-=${speed*2}`)
-        .to(this.home.pagtrigger, {duration:speed, scaleX:1, ease:'power2.out'},`-=${speed}`)
-      this.home.triggerNextAnimation
-        .to(this.home.pagtrigger, {duration:speed*2, xPercent:100*(index+1), ease:'power2.inOut'})
-        .to(this.home.pagtrigger, {duration:speed, scaleX:1.5, ease:'power2.in'},`-=${speed*2}`)
-        .to(this.home.pagtrigger, {duration:speed, scaleX:1, ease:'power2.out'},`-=${speed}`)
-      this.home.triggerPrevAnimation
-        .to(this.home.pagtrigger, {duration:speed*2, xPercent:100*(index-1), ease:'power2.inOut'})
-        .to(this.home.pagtrigger, {duration:speed, scaleX:1.5, ease:'power2.in'},`-=${speed*2}`)
-        .to(this.home.pagtrigger, {duration:speed, scaleX:1, ease:'power2.out'},`-=${speed}`)
-      //categories
-      if(this.home.slide.classList.contains('fast-categories')) {
-        
-        let $slides = $this.querySelectorAll('.fast-categories-block');
-        this.home.forward
-          .set($this, {autoAlpha:1})
-          .fromTo($slides, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3}})
-          .fromTo($slides, {xPercent:50}, {immediateRender:false, duration:speed*0.7, xPercent:0, ease:'power2.out', stagger:{amount:speed*0.3}},`-=${speed}`)
-        this.home.back
-          .set($this, {autoAlpha:1})
-          .fromTo($slides, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3,from:'end'}})
-          .fromTo($slides, {xPercent:-50}, {immediateRender:false, duration:speed*0.7, xPercent:0, ease:'power2.out', stagger:{amount:speed*0.3,from:'end'}},`-=${speed}`)
-        this.home.enterAnimation
-          .set($this, {autoAlpha:1})
-          .fromTo($slides, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3}})
-          .fromTo($slides, {yPercent:50}, {immediateRender:false, duration:speed*0.7, yPercent:0, ease:'power2.out', stagger:{amount:speed*0.3}},`-=${speed}`)
-      }
-      //projects
-      else if(this.home.slide.classList.contains('project-preview')) {
-        let $image = $this.querySelector('.project-preview__image'),
-            $icon = $this.querySelector('.label-item .icon'),
-            $iconback = $this.querySelector('.label-item__title'),
-            $iconletters = $this.querySelectorAll('.label-item__title .char'),
-            $line = $this.querySelectorAll('.project-preview__line, .project-preview__link .line'),
-            $textchars = $this.querySelectorAll('.project-preview__text .char'),
-            $titlechars = $this.querySelectorAll('.project-preview__title .char'),
-            $linkchars = $this.querySelectorAll('.project-preview__link .char');
-        this.home.forward
-          .set($this, {autoAlpha:1})
-          .fromTo($image, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut',
-            onStart:function(){
-              gsap.fromTo($line, {scaleX:0, xPercent:-50}, {duration:speed*2,scaleX:1,xPercent:0,ease:'power2.out'})
-            }})
-          .fromTo($line, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'}, `-=${speed}`)
-          .fromTo($image, {xPercent:30}, {immediateRender:false, duration:speed, xPercent:0, ease:'power2.out'}, `-=${speed}`)
-          //text
-          .fromTo($titlechars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3}},`-=${speed}`)
-          .fromTo($titlechars, {x:50}, {immediateRender:false, duration:speed*0.7, x:0, ease:'power2.out', stagger:{amount:speed*0.3}},`-=${speed}`)
-          .fromTo($textchars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3}},`-=${speed}`)
-          .fromTo($textchars, {x:50}, {immediateRender:false, duration:speed*0.7, x:0, ease:'power2.out', stagger:{amount:speed*0.3}},`-=${speed}`)
-          .fromTo($linkchars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3}},`-=${speed}`)
-          .fromTo($linkchars, {x:50}, {immediateRender:false, duration:speed*0.7, x:0, ease:'power2.out', stagger:{amount:speed*0.3}},`-=${speed}`)
-          //icon label
-          .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'}, `-=${speed}`)
-          .fromTo($icon, {yPercent:50}, {duration:speed, yPercent:0, ease:'power2.out'}, `-=${speed}`)
-          .fromTo($iconletters, {autoAlpha:0,yPercent:100}, {duration:speed*0.7,autoAlpha:1,yPercent:0,ease:'power2.out', stagger:{amount:speed*0.3}}, `-=${speed}`)
-          .fromTo($iconback, {yPercent:100,autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.out'},`-=${speed}`)
-        
-        this.home.back
-          .set($this, {autoAlpha:1})
-          .fromTo($image, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut',
-            onStart:function(){
-              gsap.fromTo($line, {scaleX:0, xPercent:-50}, {duration:speed*2,scaleX:1,xPercent:0,ease:'power2.out'})
-            }})
-          .fromTo($line, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'}, `-=${speed}`)
-          .fromTo($image, {xPercent:-30}, {immediateRender:false, duration:speed, xPercent:0, ease:'power2.out'}, `-=${speed}`)
-          //text
-          .fromTo($titlechars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3, from:'end'}},`-=${speed}`)
-          .fromTo($titlechars, {xPercent:-50}, {immediateRender:false, duration:speed*0.7, xPercent:0, ease:'power2.out', stagger:{amount:speed*0.3, from: "end"}},`-=${speed}`)
-          .fromTo($textchars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3, from:'end'}},`-=${speed}`)
-          .fromTo($textchars, {x:-50}, {immediateRender:false, duration:speed*0.7, x:0, ease:'power2.out', stagger:{amount:speed*0.3, from: "end"}},`-=${speed}`)
-          .fromTo($linkchars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3, from: "end"}},`-=${speed}`)
-          .fromTo($linkchars, {x:-50}, {immediateRender:false, duration:speed*0.7, x:0, ease:'power2.out', stagger:{amount:speed*0.3, from: "end"}},`-=${speed}`)
-          //icon label
-          .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'}, `-=${speed}`)
-          .fromTo($icon, {yPercent:-50}, {duration:speed, yPercent:0, ease:'power2.out'}, `-=${speed}`)
-          .fromTo($iconletters, {autoAlpha:0,yPercent:-100}, {duration:speed*0.7,autoAlpha:1,yPercent:0,ease:'power2.out', stagger:{amount:speed*0.3, from:'end'}},`-=${speed}`)
-          .fromTo($iconback, {yPercent:-100,autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.out'},`-=${speed}`)
-        this.home.enterAnimation
-          .set($this, {autoAlpha:1})
-          .fromTo($image, {autoAlpha:0, scale:0.95}, {immediateRender:false,duration:speed, autoAlpha:1, scale:1, ease:'power2.inOut'})
-          .fromTo($line, {autoAlpha:0,scaleX:0.5, xPercent:-25}, {duration:speed, autoAlpha:1,scaleX:1,xPercent:0, ease:'power2.inOut'},`-=${speed}`)
-          .fromTo($titlechars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3, from:'random'}},`-=${speed}`)
-          .fromTo($textchars, {autoAlpha:0}, {duration:speed*0.6, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}},`-=${speed}`)
-          .fromTo($linkchars, {autoAlpha:0}, {duration:speed*0.6, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}},`-=${speed}`)
-          //icon label
-          // .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'},`-=${speed}`)
-          // .fromTo($iconletters, {autoAlpha:0}, {duration:speed*0.6,autoAlpha:1,ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}}, `-=${speed}`)
-          // //.fromTo($iconback, {autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.inOut'}, `-=${speed}`)
-          .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'}, `-=${speed}`)
-          .fromTo($icon, {yPercent:50}, {duration:speed, yPercent:0, ease:'power2.out'}, `-=${speed}`)
-          .fromTo($iconletters, {autoAlpha:0,yPercent:100}, {duration:speed*0.7,autoAlpha:1,yPercent:0,ease:'power2.out', stagger:{amount:speed*0.3}}, `-=${speed}`)
-          .fromTo($iconback, {yPercent:100,autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.out'},`-=${speed}`)
-
-        if(this.home.slide.classList.contains('navigator-preview')) {
-          let $images = this.home.slide.querySelectorAll('.image');
-          this.home.secondary
-            .fromTo($images[0], {rotation:180}, {duration:speed*2, rotation:0, ease:'power2.inOut'})
-            .fromTo($images[1], {rotation:-360}, {duration:speed*2, rotation:0, ease:"back.out(5)"},`-=${speed*2}`)
-        } 
-        else if(this.home.slide.classList.contains('patron-preview')) {
-          let $image = this.home.slide.querySelectorAll('.image')[1];
-          this.home.secondary
-            .fromTo($image, {scale:0.7, rotation:45}, {duration:speed*2, scale:1, rotation:0, ease:'power2.out'})
-        } 
-        else {
-          let $image = this.home.slide.querySelectorAll('.image')[1];
-          this.home.secondary
-            .fromTo($image, {scale:0.5}, {duration:speed*2, scale:1, ease:'power2.out'})
-        } 
-      }
-      //home
-      else {
-        let $logo = $this.querySelector('.home-logo'),
-            $words = $logo.querySelectorAll('path');
-        //animation
-        this.home.forward = gsap.timeline({paused:true})
-          .set($this, {autoAlpha:1})
-          .fromTo($logo, {scale:1.1}, {immediateRender:false, duration:speed, scale:1, ease:'power2.out'})
-          .fromTo($words, {autoAlpha:0}, {duration:speed*0.8, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.2, from:'random'}}, `-=${speed}`)
-        this.home.back = this.home.forward;
-        this.home.enterAnimation = this.home.forward;
-        // if(App.initialized) {
-        //   this.enterAnimation = this.forward;
-        // } else {
-        //   this.enterAnimation = gsap.timeline({paused:true})
-        //     .set([$words, $this], {autoAlpha:1})
-        //     .fromTo($logo, {scale:1.1, autoAlpha:0}, {duration:Preloader.duration_final, scale:1, autoAlpha:1, ease:'power3.inOut'})
-        // }
-      }
-      if(!this.home.initialized) {
-        // let delay = App.initialized?0:Preloader.delay;
-        let delay = 0;
-        //line
-        this.home.lineAnimation = gsap.timeline({paused:true})
-          .fromTo(this.home.pagination, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'})
-          .fromTo(this.home.pagination, {y:20}, {duration:speed, y:0, ease:'power2.out'}, `-=${speed}`)
-        this.home.enterAnimation.eventCallback('onStart', ()=>{
-          // gsap.set(window.$container, {autoAlpha:1});
-          let wrapper = document.querySelector('.content')
-          gsap.set(wrapper, {autoAlpha:1});
-          // setTimeout(()=>{
-          //   gsap.fromTo(Home.pagtrigger, {scaleX:0.5,xPercent:100*(Home.slideIndex-0.25)}, {duration:speed, scaleX:1, xPercent:100*Home.slideIndex, ease:'power2.out'})
-          //   this.lineAnimation.play();
-          // }, delay*1000)
-           gsap.fromTo(this.home.pagtrigger, {scaleX:0.5,xPercent:100*(this.home.slideIndex-0.25)}, {duration:speed, scaleX:1, xPercent:100*this.home.slideIndex, ease:'power2.out'})
-            this.home.lineAnimation.play();
-        })
-      }
-      resolve();
-    })},
-    keyListener (event) {
-      if (this.home.available) {
-        if (this.home.slideIndex + 1 < this.home.slides.length) {
-            if (event.key === 'ArrowRight') { 
-              this.home.available = false;
-              this.change(this.home.slideIndex + 1)
-            }
-        }
-        if (this.home.slideIndex > 0) {
-          if (event.key === 'ArrowLeft') { 
-            this.home.available = false;
-            this.change(this.home.slideIndex - 1)
-          }
-        }
-      }
-    },
-    init() {return new Promise((resolve, reject)=>{
-      const gsap = this.$gsap;
-      gsap.config({
-        nullTargetWarn: false,
-        trialWarn: false,
-      });
-      function getRandom (min, max) {
-        const rand = min + Math.random() * (max + 1 - min);
-        return Math.floor(rand);
-      }
-      for (const $card of document.querySelectorAll('.fast-categories-block')) {
-        const $icon = $card.querySelector('.icon'),
-              $text = $card.querySelector('.label-item__title'),
-              $chars = $card.querySelectorAll('.char'),
-              $bg = $card.querySelector('.fast-categories-block__bg'),
-              $item = $card.querySelector('.fast-categories-block__container');
-        let rotation = 0,
-            interval;
-        const letters = gsap
-          .timeline({ paused: true })
-          .fromTo(
-            $bg,
-            { scale: 0.9 },
-            { duration: 1 / 2, scale: 1, ease: 'power2.inOut' }
-          )
-          .fromTo(
-            $text,
-            { yPercent: 100, autoAlpha: 0 },
-            { duration: 1, yPercent: 0, autoAlpha: 1, ease: 'power2.inOut' },
-            `-=${1 / 2}`
-          )
-          .fromTo(
-            $chars,
-            { autoAlpha: 0, yPercent: 100 },
-            {
-              duration: 1 * 0.7,
-              autoAlpha: 1,
-              yPercent: 0,
-              ease: 'power2.inOut',
-              stagger: { amount: 1 * 0.3 }
-            },
-            `-=${1}`
-          );
-
-        function randomAnimation () {
-          if (getRandom(1, 2) === 1 && rotation < 360) {
-            rotation = rotation + 180
-          } else if (rotation > -360) {
-            rotation = rotation - 180
-          }
-          $icon.setAttribute('style', `transform:rotate(${rotation}deg)`)
-          interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
-        }
-
-        interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000);
-
-        $item.addEventListener('mouseenter', event);
-        $item.addEventListener('mouseleave', event);
-        $item.addEventListener('touchstart', event);
-        $item.addEventListener('customTouchend', event);
-
-        function event (event) {
-          if ((event.type === 'mouseenter' && !TouchHoverEvents.touched) || event.type === 'touchstart') {
-            letters.play()
-            $icon.setAttribute('style', 'transform:rotation(0deg)')
-            clearTimeout(interval)
-          } else if (
-            (event.type === 'mouseleave' && !TouchHoverEvents.touched) ||
-            event.type === 'customTouchend'
-          ) {
-            letters.reverse()
-            interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
-          }
-        }
-      }
-      //flag
-      this.home.available=true;
-      this.home.pagination = document.querySelector('.m-slider-pagination');
-      this.home.pagitems = document.querySelectorAll('.m-slider-pagination__link');
-      this.home.pagtrigger = document.querySelector('.m-slider-pagination__item');
-      this.home.pagtrigger.setAttribute('style',`width:${100/this.home.pagitems.length}%;`)
-      this.home.slides = document.querySelectorAll('.m-slider-slide');
-      this.home.slider = document.querySelector('.m-slider');
-      //check start slide
-      // this.home.slideIndex = 0;
-      // this.home.slide = this.home.slides[0];
-      this.home.slide = this.home.slides[this.home.slideIndex];
-      // this.home.slides.forEach(($element,index)=>{
-      //   if($element.classList.contains('active')) {
-      //     this.home.slideIndex = index;
-      //     this.home.slide = $element;
-      //   }
-      // })
-      if (this.home.slide) {
-        this.home.slide.classList.add('active');
-      } else {
-        this.home.slide = this.home.slides[0]
-        this.home.slide.classList.add('active');
-      }
-      
-      //animations
-      gsap.set(this.home.pagtrigger, {xPercent:(100*this.home.slideIndex)});
-      this.home.swipearea = new Hammer.Manager(this.home.slider);
-      this.home.swipearea.add(new Hammer.Pan().set({threshold:1}));
-      //event click
-      this.home.pagitems.forEach((element,index)=>{
-        element.addEventListener('click',(event)=>{
-          event.preventDefault();
-          // if(!barba.transitions.isRunning && this.available) {
-          if(this.home.available) {
-            this.home.available=false;
-            this.change(index);
-          }
-        })
-      })
-      if (this.$device.isDesktop) {
-        //event keyup
-        window.addEventListener('keyup', (event)=>{this.keyListener(event)});
-        //event scroll
-        window.addEventListener('wheel', (event)=>{this.scrollListener(event)});
-      }
-      //event swipe
-      let cursorPos = {
-            current: {
-              x:0,
-              y:0
-            },
-            start: {
-              x:0,
-              y:0,
-              update: function(callback, func) {
-                cursorPos.start.x = cursorPos.current.x;
-                cursorPos.start.y = cursorPos.current.y;
-                if(callback=='onComplete') {
-                  func();
-                }
-              }
-            }
-          },
-          swipeLength = 150,
-          maxTime = 0.5,
-          swipeForward = false,
-          swipeBack  = false,
-          direction = false;
-      this.home.swipearea.on("panleft panend panstart panup pandown panright", (event)=>{
-        cursorPos.current.x = event.center.x;
-        cursorPos.current.y = event.center.y;
-        
-        // if(!barba.transitions.isRunning && this.available) {
-        if(this.home.available) {
-          //если поставили палец
-          if(event.type=='panstart') {
-            this.home.swiped = true;
-            cursorPos.start.update();
-          } 
-          //подняли палец с дисплея
-          else if(event.type=='panend') {
-            this.home.swiped = false;
-            direction = false;
-            this.home.animationTime = 0;
-            if(swipeForward == true) {
-              this.home.back.play();
-              this.home.triggerNextAnimation.reverse();
-            } else if(swipeBack == true) {
-              this.home.forward.play();
-              this.home.triggerPrevAnimation.reverse();
-            }
-            swipeForward = false;
-            swipeBack = false;
-          }
-          //если длина свайпа достаточная
-          else if(this.home.animationTime>=maxTime) {
-            this.home.available=false;
-            //Circle.rotation((speed*2)-this.animationTime);
-            direction = false;
-            if(swipeForward == true) {
-              this.change(this.home.slideIndex+1);
-            } else if(swipeBack == true) {
-              this.change(this.home.slideIndex-1);
-            }
-            swipeForward = false;
-            swipeBack = false;
-          }
-          //процесс ерзанья пальцами
-          else if(this.home.swiped==true) {
-            let pos;
-            if(direction==false) {
-              if(event.type=='panup' || event.type=='pandown') {
-                direction = 'vertical';
-              } else if(event.type=='panright' || event.type=='panleft') {
-                direction = 'horizontal';
-              }
-            }
-            if(direction == 'vertical') {
-              pos = event.center.y - cursorPos.start.y;
-            } else if(direction == 'horizontal') {
-              pos = event.center.x - cursorPos.start.x;
-            }
-            //управление временем анимации
-            if(event.type=='panup' || event.type=='panleft') {
-              if(swipeBack == false) {
-                swipeForward = true;
-                if(this.home.slideIndex == this.home.slides.length-1) {
-                  this.home.animationTime = (-pos/(swipeLength-pos))*maxTime;
-                } else {
-                  this.home.animationTime = (-pos/swipeLength)*maxTime;
-                }
-              } else {
-                if(this.home.slideIndex == 0) {
-                  this.home.animationTime = (pos/(swipeLength+pos))*maxTime;
-                } else {
-                  this.home.animationTime = (pos/swipeLength)*maxTime;
-                }
-                if(this.home.animationTime<=0) {
-                  swipeBack = false;
-                  this.home.animationTime = 0;
-                }
-              }
-            } else {
-              if(swipeForward == false) {
-                swipeBack = true;
-                if(this.home.slideIndex == 0) {
-                  this.home.animationTime = (pos/(swipeLength+pos))*maxTime;
-                } else {
-                  this.home.animationTime = (pos/swipeLength)*maxTime;
-                }
-              } else {
-                if(this.home.slideIndex == this.home.slides.length-1) {
-                  this.home.animationTime = (-pos/(swipeLength-pos))*maxTime;
-                } else {
-                  this.home.animationTime = (-pos/swipeLength)*maxTime;
-                }
-                if(this.home.animationTime<=0) {
-                  swipeForward = false;
-                }
-              }
-            }
-            //последняя корректировка
-            if(this.home.animationTime>maxTime) {
-              this.home.animationTime = maxTime;
-            } else if(this.home.animationTime==-0 || this.home.animationTime<0) {
-              this.home.animationTime = 0;
-            }
-            if(swipeForward == true) {
-              this.home.back.reverse(speed - this.home.animationTime);
-              this.home.triggerNextAnimation.play(this.home.animationTime);
-              this.home.back.pause();
-              this.home.triggerNextAnimation.pause();
-            } else if(swipeBack == true) {
-              this.home.forward.reverse(speed - this.home.animationTime);
-              this.home.triggerPrevAnimation.play(this.home.animationTime);
-              this.home.forward.pause();
-              this.home.triggerPrevAnimation.pause();
-            }
-          }
-        }
-      });
-      // document.querySelector('.eurasia-preview .project-preview__title .word').insertAdjacentHTML('afterEnd', '</br>');
-      this.getAnimations().then(()=>{
-        this.home.initialized = true;
-        resolve();
-      });
-    })},
+    ss() {
+      const ea = getEv
+      console.log(ea);
+    }
   },
 };
 </script>
