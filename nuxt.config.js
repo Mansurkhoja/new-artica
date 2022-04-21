@@ -1,9 +1,9 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  router: {
-    base: '/new-artica/'
-  },
+  // router: {
+  //   base: '/new-artica/'
+  // },
   // server: {
   //   host: '0.0.0.0',
   //   port: 8000

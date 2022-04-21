@@ -67,9 +67,9 @@ export const Nav = {
       this.$nav_s_links.forEach(($link)=>{
         $link.addEventListener('click', (event)=>{
           let data = $link.getAttribute('data-category');
-          if(data!==null && $link.getAttribute('data-barba-prevent')!==null) {
+          if(data!==null) {
             event.preventDefault();
-            Projects.tabClick($link);
+            // Projects.tabClick($link);
           }
         })
       })

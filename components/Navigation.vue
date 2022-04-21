@@ -204,6 +204,7 @@ export default {
   name: 'NuxtNavigation',
   data() {
     return {
+      isFistTime: true
     };
   },
   computed: {
@@ -213,13 +214,14 @@ export default {
   },
   watch: {
     $route (to, from) {
-      this.$nextTick(() => this.change())
+      if (!this.isFistTime) {
+       this.$nextTick(() => { this.change() })
+      //  to.name === 'index'
+      }
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      this.init()
-    })
+    this.$nextTick(() => { this.init(); this.isFistTime = false })
   },
  methods: {
     init() {
@@ -286,6 +288,7 @@ export default {
       /* ===== Events ===== */
       this.$nav_s_links.forEach(($link)=>{
         $link.addEventListener('click', (event)=>{
+          event.preventDefault()
           let data = $link.getAttribute('data-category');
           this.$router.push($link.getAttribute('href'))
           // this.change(event)
@@ -419,9 +422,12 @@ export default {
         this.$nav_m_links.forEach(($this, i)=>{
           if(i==0) {
             this.$gsap.effects.vertical($this, moving_height*0.15);
+            // this.$gsap.to($this, {duration:speed/2, y:moving_height*0.15, ease:'power2.inOut'})
           } else if(i==1) {
             this.$gsap.effects.vertical($this, '0');
+            // this.$gsap.to($this, {duration:speed/2, y:0, ease:'power2.inOut'})
           } else {
+            // this.$gsap.to($this, {duration:speed/2, y:-moving_height*0.15, ease:'power2.inOut'})
             this.$gsap.effects.vertical($this, -moving_height*0.15);
           }
         })
@@ -484,7 +490,7 @@ export default {
         this.scrollbar[i].scrollTo(0, scrollSpeed);
       }
     },
-    change() {
+    change(isHome) {
       // let href = window.location.pathname+window.location.search;
       let count = 0;
       // let active_s_link = document.querySelector('.nav-s__link.active')
@@ -512,6 +518,8 @@ export default {
           if($link!==this.$nav_m_link_active) {
             $link.parentNode.classList.add('disabled');
             $link.classList.add('active');
+            // if (isHome !== true) {
+            // }
             this.$gsap.effects.active($link);
             this.$nav_m_link_active = $link;
           }
@@ -525,8 +533,8 @@ export default {
         this.$nav_m_link_active = undefined;
         this.$gsap.effects.hover1(this.$nav_m_links);
       }
-      this.vertical_nav_m_links_moving();
       this.toggle_nav_s();
+      this.vertical_nav_m_links_moving();
       if(this.isNav) {
         setTimeout(()=>{
           this.close();
