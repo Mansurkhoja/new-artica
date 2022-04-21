@@ -51,6 +51,10 @@
     color: rgba(var(--item-color), 1);
     transition: color $trs2;
     will-change: transform;
+    // &.disabled,
+    // &.active {
+    //   pointer-events: none;
+    // }
     &.disabled {
       pointer-events: none;
     }

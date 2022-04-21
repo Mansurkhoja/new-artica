@@ -14,7 +14,8 @@
                   href="#"
                   class="nav-m__link"
                   :class="isActive ? 'active' : ''"
-                  data-list="categories">
+                  data-list="categories"
+                  @click.prevent="openList('categories', false, 0)">
                   Мы делаем
                 </a>
               </li>
@@ -25,7 +26,8 @@
                   href="/projects"
                   class="nav-m__link"
                   :class="isActive ? 'active' : ''"
-                  data-list="projects">
+                  data-list="projects"
+                  @click.prevent="openList('projects', false, 1)">
                   Мы Проекты
                 </a>
               </li>
@@ -35,7 +37,8 @@
                 <a
                   href="/contacts"
                   class="nav-m__link"
-                  :class="isActive ? 'active' : ''">
+                  :class="isActive ? 'active' : ''"
+                  @click.prevent="openList(false, 'contacts', 2)">
                   Контакты
                 </a>
               </li>
@@ -48,12 +51,13 @@
             <div class="nav-s" data-list="categories">
               <ul class="nav-s__list">
                 <li class="nav-s__item">
-                  <nuxt-link to="/category" exact custom v-slot="{ isActive }">
+                  <nuxt-link to="/category" custom v-slot="{ isActive }">
                     <a 
                       href="/category" 
                       class="nav-s__link"
                       data-category="all"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Всё
                     </a>
                   </nuxt-link>
@@ -64,7 +68,8 @@
                       href="/category/1" 
                       class="nav-s__link"
                       data-category="ui"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Пользовательский интерфейс
                     </a>
                   </nuxt-link>
@@ -75,7 +80,8 @@
                       href="/category/2" 
                       class="nav-s__link"
                       data-category="graphicdesign"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Графический дизайн
                     </a>
                   </nuxt-link>
@@ -86,7 +92,8 @@
                       href="/category/3" 
                       class="nav-s__link"
                       data-category="webdesign"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Веб-дизайн
                     </a>
                   </nuxt-link>
@@ -97,7 +104,8 @@
                       href="/category/4" 
                       class="nav-s__link"
                       data-category="identity"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Фирменный стиль
                     </a>
                   </nuxt-link>
@@ -108,7 +116,8 @@
                       href="/category/5" 
                       class="nav-s__link"
                       data-category="apps"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Приложения
                     </a>
                   </nuxt-link>
@@ -121,9 +130,10 @@
                 <li class="nav-s__item">
                   <nuxt-link to="/projects/1" custom v-slot="{ isActive }">
                     <a 
-                      href="/projects/1"
+                      href="/projects/1" 
                       class="nav-s__link"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Навигатор
                     </a>
                   </nuxt-link>
@@ -133,7 +143,8 @@
                     <a 
                       href="/projects/2" 
                       class="nav-s__link"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Майолика
                     </a>
                   </nuxt-link>
@@ -143,7 +154,8 @@
                     <a 
                       href="/projects/3" 
                       class="nav-s__link"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Route 66
                     </a>
                   </nuxt-link>
@@ -153,7 +165,8 @@
                     <a 
                       href="/projects/4" 
                       class="nav-s__link"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Patron
                     </a>
                   </nuxt-link>
@@ -163,7 +176,8 @@
                     <a 
                       href="/projects/5" 
                       class="nav-s__link"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Twonp
                     </a>
                   </nuxt-link>
@@ -173,7 +187,8 @@
                     <a 
                       href="/projects/6" 
                       class="nav-s__link"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       Inpool
                     </a>
                   </nuxt-link>
@@ -183,7 +198,8 @@
                     <a 
                       href="/projects/7" 
                       class="nav-s__link"
-                      :class="isActive ? 'active' : ''">
+                      :class="isActive ? 'active' : ''"
+                      @click.prevent="openLink(2)">
                       NCE
                     </a>
                   </nuxt-link>
@@ -212,26 +228,25 @@ export default {
     }
   },
   watch: {
-    $route (to, from) {
-      this.$nextTick(() => this.change())
-    }
   },
   mounted() {
     this.$nextTick(() => {
       this.init()
     })
   },
- methods: {
+  methods: {
     init() {
       this.$nav = document.querySelector('.nav');
       this.$toggle = document.querySelector('.nav-toggle');
+      this.state = false;
       this.available = true;
       this.$links = this.$nav.querySelectorAll('a');
       this.$nav_m = document.querySelector('.nav-m');
-      this.$nav_s = document.querySelectorAll('.nav-s');
       this.$nav_m_links = document.querySelectorAll('.nav-m__link');
+      this.$nav_m_link_active = document.querySelector('.nav-m__link.active');
       this.$nav_m_items = document.querySelectorAll('.nav-m__item');
       this.$nav_m_links.forEach(($link)=>{this.$gsap.set($link, {scale:0.66, xPercent:-17, autoAlpha:1})})
+      this.$nav_s = document.querySelectorAll('.nav-s');
       this.$nav_s_links = document.querySelectorAll('.nav-s__link');
       this.$nav_s_items = document.querySelectorAll('.nav-s__item');
       this.scrollbar = {};
@@ -270,90 +285,16 @@ export default {
 
       /* ===== Toggle Nav Events ===== */
       this.$toggle.addEventListener('click', ()=> {
-        if(this.available===true) {
+        if(this.available==true) {
           this.available=false;
-          if(this.isNav===false) {
+          if(this.isNav==false) {
             this.open();
           } else {
             this.close();
           }
         }
       })
-
       /* ===== Sub Nav Scrollbars ===== */
-      this.initScrollbars();
-
-      /* ===== Events ===== */
-      this.$nav_s_links.forEach(($link)=>{
-        $link.addEventListener('click', (event)=>{
-          let data = $link.getAttribute('data-category');
-          this.$router.push($link.getAttribute('href'))
-          // this.change(event)
-        })
-      })
-
-      this.$nav_m_links.forEach(($link)=>{
-        /* ===== Click ===== */
-        $link.addEventListener('click', (event)=>{
-          event.preventDefault();
-          clearTimeout(this.timeout)
-          let data = $link.getAttribute('data-list');
-          if(data!==null) {
-            this.$nav_s_active = document.querySelector(`.nav-s[data-list='${data}']`);
-          } else {
-            this.$nav_s_active = undefined;
-            this.$router.push($link.getAttribute('href'))
-          }
-
-          if(this.$nav_m_link_active!==undefined) {
-            this.$nav_m_link_active.parentNode.classList.remove('disabled');
-            this.$gsap.to(this.$nav_m_link_active, {duration:speed/2, scale:0.66, xPercent:-17, autoAlpha:0.1, ease:'power2.out'});
-          }
-
-          this.$nav_m_link_active = $link;
-          this.$gsap.effects.active($link);
-          $link.parentNode.classList.add('disabled');
-          this.vertical_nav_m_links_moving();
-          this.toggle_nav_s();
-        })
-        /* ===== Mouseenter ===== */
-        $link.addEventListener('mouseenter', ()=>{
-          clearTimeout(this.timeout)
-          if(this.$nav_m_link_active!==undefined) {
-            this.$gsap.effects.hover2($link);
-          } else {
-            this.$nav_m_links.forEach(($element)=>{
-              if($element==$link) {
-                this.$gsap.effects.hover1($element);
-              } else {
-                this.$gsap.effects.default($element);
-              }
-            })
-          }
-        })
-        /* ===== Mouseleave ===== */
-        $link.addEventListener('mouseleave', ()=>{
-          clearTimeout(this.timeout)
-          if(this.$nav_m_link_active!==undefined) {
-            if($link!==this.$nav_m_link_active) {
-              this.$gsap.effects.default($link);
-            }
-          } else {
-            this.timeout = setTimeout(()=>{
-              this.$gsap.effects.hover1(this.$nav_m_links);
-            },500)
-          }
-        })
-      })
-      /* ===== Mouseleave ===== */
-      this.$nav_m.addEventListener('mouseleave', ()=>{
-        clearTimeout(this.timeout)
-        if(this.$nav_m_link_active==undefined) {
-          this.$gsap.effects.hover1(this.$nav_m_links);
-        } 
-      })
-
-      this.change();
     },
     getNavAnimation(callback) {
       let fromVal = 0;
@@ -375,6 +316,72 @@ export default {
       
       if(callback!==undefined) {
         callback();
+      }
+    },
+    toggle_nav_s() {
+      let $nav = this.$nav_s_active, index = 0;
+      if($nav!==undefined) {
+        let $items = $nav.querySelectorAll('.nav-s__item');
+        //get active link index
+        $nav.querySelectorAll('.nav-s__link').forEach(($link,i)=>{
+          if($link==this.$nav_s_link_active) {
+            index = i;
+          }
+        })
+        //animation
+        this.nav_s_animation = gsap.timeline({paused:true})
+          .set($nav, {autoAlpha:1})
+          .fromTo($items, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.25, from:index}})
+          .fromTo($items, {x:100}, {duration:speed, x:0, ease:'power2.out', stagger:{amount:speed*0.25, from:index}}, `-=${speed*1.25}`)
+        let s; //scroll to link speed
+        if(this.$nav_s_old==undefined || this.$nav_s_active!==this.$nav_s_old) {
+          s=0;
+          if(Nav.state) this.nav_s_animation.play();
+          if(this.$nav_s_active!==this.$nav_s_old) {
+            gsap.timeline().to(Nav.$nav_s_old, {duration:speed/2, autoAlpha:0, ease:'power2.out'});
+          }
+        } 
+        else {
+          s=speed;
+          if(Nav.state) this.nav_s_animation.progress(1);
+        }
+        this.scrollToActiveLink(s);
+      } 
+      else if(this.$nav_s_old!==undefined) {
+        //let $navOld = this.$nav_s_old;
+        gsap.timeline().to(Nav.$nav_s_old, {duration:speed/2, autoAlpha:0, ease:'power2.out'});
+        this.nav_s_animation = undefined;
+      }
+      this.$nav_s_old = this.$nav_s_active;
+    },
+    open() {
+      this.$store.dispatch('nav/updateNav')
+      // Header.show();
+      this.$toggle.classList.add('disabled');
+      this.getNavAnimation(()=>{
+        this.animation.play();
+        this.animation.eventCallback("onComplete",()=>{
+          this.available=true;
+        });
+      })
+      //subnav anims
+      if(this.nav_s_animation) {
+        setTimeout(()=>{
+          this.nav_s_animation.play();
+        }, speed*250)
+      }
+    },
+    close() {
+      this.$store.dispatch('nav/updateNav')
+      this.getNavAnimation(()=>{
+        this.animation.reverse(0);
+        this.animation.eventCallback("onReverseComplete",()=>{
+          this.$toggle.classList.remove('disabled');
+          this.available=true;
+        });
+      })
+      if(this.nav_s_animation) {
+        this.nav_s_animation.reverse();
       }
     },
     vertical_nav_m_links_moving() {
@@ -427,222 +434,33 @@ export default {
         })
       }
     },
-    toggle_nav_s() {
-      let $nav = this.$nav_s_active, index = 0;
-      if($nav!==undefined) {
-        let $items = $nav.querySelectorAll('.nav-s__item');
-        //get active link index
-        $nav.querySelectorAll('.nav-s__link').forEach(($link,i)=>{
-          if($link==this.$nav_s_link_active) {
-            index = i;
-          }
-        })
-        //animation
-        this.nav_s_animation = this.$gsap.timeline({paused:true})
-          .set($nav, {autoAlpha:1})
-          .fromTo($items, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.25, from:index}})
-          .fromTo($items, {x:100}, {duration:speed, x:0, ease:'power2.out', stagger:{amount:speed*0.25, from:index}}, `-=${speed*1.25}`)
-        let s; //scroll to link speed
-        if(this.$nav_s_old==undefined || this.$nav_s_active!==this.$nav_s_old) {
-          s=0;
-          if(this.isNav) this.nav_s_animation.play();
-          if(this.$nav_s_active!==this.$nav_s_old) {
-            this.$gsap.timeline().to(this.$nav_s_old, {duration:speed/2, autoAlpha:0, ease:'power2.out'});
-          }
-        } 
-        else {
-          s=speed;
-          if(this.isNav) this.nav_s_animation.progress(1);
-        }
-        this.scrollToActiveLink(s);
-      } 
-      else if(this.$nav_s_old!==undefined) {
-        //let $navOld = this.$nav_s_old;
-        this.$gsap.timeline().to(this.$nav_s_old, {duration:speed/2, autoAlpha:0, ease:'power2.out'});
-        this.nav_s_animation = undefined;
-      }
-      this.$nav_s_old = this.$nav_s_active;
-    },
-    scrollToActiveLink(scrollSpeed) {
-      let i;
-      this.$nav_s.forEach(($nav, index)=>{
-        if($nav==this.$nav_s_active) {
-          i = index;
-        } 
-      })
-      if(this.$nav_s_link_active!==undefined && this.$nav_s_link_active.closest('.nav-s')==this.$nav_s_active) {
-        let val, $link = this.$nav_s_link_active;
-        let h1 = $link.getBoundingClientRect().height;
-        let h2 = this.scrollbar[i].navHeight();
-        if(h1>h2) {
-          val = this.scrollbar[i].$scrollarea.getBoundingClientRect().top-$link.getBoundingClientRect().top-((h1-h2)/2);
-        } else {
-          val = this.scrollbar[i].$scrollarea.getBoundingClientRect().top-$link.getBoundingClientRect().top;
-        }
-        this.scrollbar[i].scrollTo(val, scrollSpeed);
-      } else {
-        this.scrollbar[i].scrollTo(0, scrollSpeed);
-      }
-    },
-    change() {
-      // let href = window.location.pathname+window.location.search;
-      let count = 0;
-      // let active_s_link = document.querySelector('.nav-s__link.active')
-      // let active_s_link = e?.srcElement ? e.srcElement : document.querySelector('.nav-s__link.active')
-      let active_s_link = document.querySelector('.nav-s__link.active')
+    openList(list, link, idx) {
+      // clearTimeout(this.timeout)
+      this.$nav_m_links.forEach(el => {
+        el.classList.remove('active')
+        el.parentNode.classList.remove('disabled');
+        this.$gsap.effects.default(el)
+      });
       
-      if (active_s_link) {
-        count++;
-        this.$nav_s_link_active = active_s_link;
-        this.$nav_s_active = active_s_link.closest('.nav-s');
-      }
-      if(count===0) {
+      
+      if (list) {
+         this.$nav_s_active = document.querySelector(`.nav-s[data-list='${list}']`);
+      } else {
         this.$nav_s_active = undefined;
-        this.$nav_s_link_active = undefined;
-      } else {
-        count=0;
+        // this.close()
       }
-    
-      this.$nav_m_links.forEach(($link)=>{
-        let attr = $link.getAttribute('href'),
-            data = $link.getAttribute('data-list'),
-            list = this.$nav_s_active!==undefined ? this.$nav_s_active.getAttribute('data-list') : false;
-        if($link.classList.contains('active') || data==list) {
-          count++;
-          if($link!==this.$nav_m_link_active) {
-            $link.parentNode.classList.add('disabled');
-            $link.classList.add('active');
-            this.$gsap.effects.active($link);
-            this.$nav_m_link_active = $link;
-          }
-        } else {
-          $link.parentNode.classList.remove('disabled');
-          $link.classList.remove('active');
-          this.$gsap.effects.default($link);
-        }
-      })
-      if(count==0) {
-        this.$nav_m_link_active = undefined;
-        this.$gsap.effects.hover1(this.$nav_m_links);
+      if(this.$nav_m_link_active!==undefined) {
+        this.$nav_m_link_active.parentNode.classList.remove('disabled');
+        // this.$gsap.to(this.$nav_m_link_active, {duration:speed/2, scale:0.66, xPercent:-17, autoAlpha:0.1, ease:'power2.out'});
       }
+      this.$nav_m_link_active = this.$nav_m_links[idx]
+      // this.$gsap.effects.active(this.$nav_m_link_active);
+      this.$nav_m_link_active.parentNode.classList.add('disabled');
       this.vertical_nav_m_links_moving();
-      this.toggle_nav_s();
-      if(this.isNav) {
-        setTimeout(()=>{
-          this.close();
-        },speed*500)
-      }
+      // this.toggle_nav_s();
     },
-    initScrollbars() {
-      let $parent = document.querySelector('.nav-s-area'),
-          $container = document.querySelector('.nav-s-area__container');
-      let setHeight=()=>{
-        let values = [];
-        this.$nav_s.forEach(($list, index)=>{
-          values[index] = $list.querySelector('ul').getBoundingClientRect().height;
-        })
-        let h = Math.min.apply(null, values);
-        $container.style.height = `${h}px`;
-      };
-
-      $parent.addEventListener('mouseenter', ()=>{
-        if(this.$device.isDesktop) {
-          this.scrollable = true;
-        }
-      })
-      $parent.addEventListener('mouseleave', ()=>{
-        if(this.$device.isDesktop) {
-          this.scrollable = false;
-        }
-      })
-      $parent.addEventListener('touchstart', ()=>{
-        this.scrollable = true;
-      })
-      $parent.addEventListener('touchend', ()=>{
-        this.scrollable = false;
-      })
-      setHeight();
-      window.addEventListener('resize', function() {
-        setHeight();
-      })
-
-      this.$nav_s.forEach(($nav, index)=>{
-        let $scrollbar = this.scrollbar[index] = [];
-        $scrollbar.$scrollarea = $nav.querySelector('ul');
-        $scrollbar.ease = 0.05;
-        $scrollbar.currentY = 0;
-        $scrollbar.targetY = 0;
-        $scrollbar.inscroll = false;
-        $scrollbar.navHeight = () => {
-          let h = $nav.querySelectorAll('a')[0].getBoundingClientRect().height;
-          $nav.style.height = `${h}px`;
-          return h;
-        }
-        $scrollbar.navHeight();
-        $scrollbar.height = () => {return $scrollbar.$scrollarea.getBoundingClientRect().height - $scrollbar.navHeight()};
-        $scrollbar.instance = new VirtualScroll({passive:false})
-        $scrollbar.instance.on((event)=>{
-          if(this.scrollable==true && !$scrollbar.inscroll && $nav==this.$nav_s_active) {
-            $scrollbar.targetY += event.deltaY;
-            $scrollbar.targetY = Math.max(-$scrollbar.height(), $scrollbar.targetY);
-            $scrollbar.targetY = Math.min(0, $scrollbar.targetY);
-          }
-        });
-        $scrollbar.animation = () => {
-          requestAnimationFrame($scrollbar.animation);
-          if(!$scrollbar.inscroll) {
-            $scrollbar.currentY += ($scrollbar.targetY - $scrollbar.currentY) * $scrollbar.ease;
-            $scrollbar.currentY = $scrollbar.currentY > -0.1 ? 0 : $scrollbar.currentY;
-            $scrollbar.$scrollarea.style.transform = `translate3d(0, ${$scrollbar.currentY}px, 0)`;
-          }
-        }
-        $scrollbar.animation();
-        $scrollbar.scrollTo=(value, s=speed)=>{
-          $scrollbar.inscroll = true;
-          if($scrollbar.animationScroll!==undefined) {
-            $scrollbar.animationScroll.pause();
-          }
-          $scrollbar.animationScroll = this.$gsap.fromTo($scrollbar.$scrollarea, {y:$scrollbar.currentY}, {duration:s, y:value, ease:'power2.inOut',onComplete:function() {
-            $scrollbar.inscroll = false;
-          }})
-          $scrollbar.currentY = value;
-          $scrollbar.targetY = value;
-        }
-      })
-      
-    
-    },
-    open() {
-      this.$store.dispatch('nav/updateNav')
-      // Header.show();
-      this.$toggle.classList.add('disabled');
-      this.getNavAnimation(()=>{
-        this.animation.play();
-        this.animation.eventCallback("onComplete",()=>{
-          this.available=true;
-        });
-      })
-      //subnav anims
-      if(this.nav_s_animation) {
-        setTimeout(()=>{
-          this.nav_s_animation.play();
-        }, speed*250)
-      }
-    },
-    close() {
-      this.$store.dispatch('nav/updateNav')
-      this.getNavAnimation(()=>{
-        this.animation.reverse(0);
-        this.animation.eventCallback("onReverseComplete",()=>{
-          this.$toggle.classList.remove('disabled');
-          this.available=true;
-        });
-      })
-      if(this.nav_s_animation) {
-        this.nav_s_animation.reverse();
-      }
-    }
   },
+   
 };
 </script>
 

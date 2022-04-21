@@ -19,6 +19,14 @@
         -webkit-filter: invert(100%);
         filter: invert(100%);
     }
+    .nav-s-area__container:before {
+        transition: .5s ease-in-out .5s;
+        opacity: 1;
+    }
+    .nav-s-area__container:after {
+        transition: .15s ease-out;
+        opacity: 0;
+    }
 }
 
 .light-theme {

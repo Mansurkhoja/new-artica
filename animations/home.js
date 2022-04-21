@@ -8,6 +8,8 @@ gsap.config({
 });
 export const Home = {
     slideIndex: 0,
+    // isDesktop: false,
+    // this.$device.isDesktop
     init: function() {return new Promise((resolve, reject)=>{    
         for (const $card of document.querySelectorAll('.fast-categories-block')) {
             const $icon = $card.querySelector('.icon'),
