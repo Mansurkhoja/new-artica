@@ -1,7 +1,7 @@
 const speed = 1;
 import gsap from 'gsap';
 import Hammer from '@squadette/hammerjs';
-import { TouchHoverEvents } from '@/helpers'
+import { TouchHoverEvents } from '@/helpers';
 gsap.config({
   nullTargetWarn: false,
   trialWarn: false,
@@ -11,75 +11,75 @@ export const Home = {
     // isDesktop: false,
     // this.$device.isDesktop
     init: function() {return new Promise((resolve, reject)=>{    
-        for (const $card of document.querySelectorAll('.fast-categories-block')) {
-            const $icon = $card.querySelector('.icon'),
-                $text = $card.querySelector('.label-item__title'),
-                $chars = $card.querySelectorAll('.char'),
-                $bg = $card.querySelector('.fast-categories-block__bg'),
-                $item = $card.querySelector('.fast-categories-block__container');
-            let rotation = 0,
-                interval;
-            const letters = gsap
-                .timeline({ paused: true })
-                .fromTo(
-                    $bg,
-                    { scale: 0.9 },
-                    { duration: 1 / 2, scale: 1, ease: 'power2.inOut' }
-                )
-                .fromTo(
-                    $text,
-                    { yPercent: 100, autoAlpha: 0 },
-                    { duration: 1, yPercent: 0, autoAlpha: 1, ease: 'power2.inOut' },
-                    `-=${1 / 2}`
-                )
-                .fromTo(
-                    $chars,
-                    { autoAlpha: 0, yPercent: 100 },
-                    {
-                        duration: 1 * 0.7,
-                        autoAlpha: 1,
-                        yPercent: 0,
-                        ease: 'power2.inOut',
-                        stagger: { amount: 1 * 0.3 }
-                    },
-                    `-=${1}`
-                );
+      for (const $card of document.querySelectorAll('.fast-categories-block')) {
+          const $icon = $card.querySelector('.icon'),
+              $text = $card.querySelector('.label-item__title'),
+              $chars = $card.querySelectorAll('.char'),
+              $bg = $card.querySelector('.fast-categories-block__bg'),
+              $item = $card.querySelector('.fast-categories-block__container');
+          let rotation = 0,
+              interval;
+          const letters = gsap
+              .timeline({ paused: true })
+              .fromTo(
+                  $bg,
+                  { scale: 0.9 },
+                  { duration: 1 / 2, scale: 1, ease: 'power2.inOut' }
+              )
+              .fromTo(
+                  $text,
+                  { yPercent: 100, autoAlpha: 0 },
+                  { duration: 1, yPercent: 0, autoAlpha: 1, ease: 'power2.inOut' },
+                  `-=${1 / 2}`
+              )
+              .fromTo(
+                  $chars,
+                  { autoAlpha: 0, yPercent: 100 },
+                  {
+                      duration: 1 * 0.7,
+                      autoAlpha: 1,
+                      yPercent: 0,
+                      ease: 'power2.inOut',
+                      stagger: { amount: 1 * 0.3 }
+                  },
+                  `-=${1}`
+              );
 
-            function randomAnimation() {
-                if (getRandom(1, 2) === 1 && rotation < 360) {
-                    rotation = rotation + 180
-                } else if (rotation > -360) {
-                    rotation = rotation - 180
-                }
-                $icon.setAttribute('style', `transform:rotate(${rotation}deg)`)
-                interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
-            }
+          function randomAnimation() {
+              if (getRandom(1, 2) === 1 && rotation < 360) {
+                  rotation = rotation + 180
+              } else if (rotation > -360) {
+                  rotation = rotation - 180
+              }
+              $icon.setAttribute('style', `transform:rotate(${rotation}deg)`)
+              interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
+          }
 
-            interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000);
+          interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000);
 
-            $item.addEventListener('mouseenter', event);
-            $item.addEventListener('mouseleave', event);
-            $item.addEventListener('touchstart', event);
-            $item.addEventListener('customTouchend', event);
+          $item.addEventListener('mouseenter', event);
+          $item.addEventListener('mouseleave', event);
+          $item.addEventListener('touchstart', event);
+          $item.addEventListener('customTouchend', event);
 
-            function event(event) {
-                if ((event.type === 'mouseenter' && !TouchHoverEvents.touched) || event.type === 'touchstart') {
-                    letters.play()
-                    $icon.setAttribute('style', 'transform:rotation(0deg)')
-                    clearTimeout(interval)
-                } else if (
-                    (event.type === 'mouseleave' && !TouchHoverEvents.touched) ||
-                    event.type === 'customTouchend'
-                ) {
-                    letters.reverse()
-                    interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
-                }
-            }
-        }
-        function getRandom(min, max) {
-            const rand = min + Math.random() * (max + 1 - min);
-            return Math.floor(rand);
-        }
+          function event(event) {
+              if ((event.type === 'mouseenter' && !TouchHoverEvents.touched) || event.type === 'touchstart') {
+                  letters.play()
+                  $icon.setAttribute('style', 'transform:rotation(0deg)')
+                  clearTimeout(interval)
+              } else if (
+                  (event.type === 'mouseleave' && !TouchHoverEvents.touched) ||
+                  event.type === 'customTouchend'
+              ) {
+                  letters.reverse()
+                  interval = setTimeout(randomAnimation, getRandom(1, 5) * 1000)
+              }
+          }
+      }
+      function getRandom(min, max) {
+          const rand = min + Math.random() * (max + 1 - min);
+          return Math.floor(rand);
+      }
       //flag
       this.available=true;
       this.pagination = document.querySelector('.m-slider-pagination');
@@ -88,16 +88,7 @@ export const Home = {
       this.pagtrigger.setAttribute('style',`width:${100/this.pagitems.length}%;`)
       this.slides = document.querySelectorAll('.m-slider-slide');
       this.slider = document.querySelector('.m-slider');
-      //check start slide
-      // this.slideIndex = 3;
       this.slide = this.slides[this.slideIndex ];
-      // this.slides.forEach(($element,index)=>{
-      //   if($element.classList.contains('active')) {
-      //     this.slideIndex = index;
-      //     console.log(this.slideIndex)
-      //     this.slide = $element;
-      //   }
-      // })
       this.slide.classList.add('active');
       //animations
       gsap.set(Home.pagtrigger, {xPercent:(100*Home.slideIndex)});
@@ -116,7 +107,6 @@ export const Home = {
       })
       //event scroll
       this.scrollListener = (event)=>{
-        // if(!barba.transitions.isRunning && event.target.closest('.m-slider')!==null && this.available) {
         if(event.target.closest('.m-slider')!==null && this.available) {
           if(event.deltaY>0 && this.slides.length>this.slideIndex+1) {
             this.available=false;
@@ -287,7 +277,6 @@ export const Home = {
           }
         }
       });
-      // document.querySelector('.eurasia-preview .project-preview__title .word').insertAdjacentHTML('afterEnd', '</br>');
       this.getAnimations().then(()=>{
         this.initialized = true;
         resolve();
@@ -397,10 +386,6 @@ export const Home = {
           .fromTo($titlechars, {autoAlpha:0}, {duration:speed*0.7, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.3, from:'random'}},`-=${speed}`)
           .fromTo($textchars, {autoAlpha:0}, {duration:speed*0.6, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}},`-=${speed}`)
           .fromTo($linkchars, {autoAlpha:0}, {duration:speed*0.6, autoAlpha:1, ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}},`-=${speed}`)
-          //icon label
-          // .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'},`-=${speed}`)
-          // .fromTo($iconletters, {autoAlpha:0}, {duration:speed*0.6,autoAlpha:1,ease:'power2.inOut', stagger:{amount:speed*0.4, from:'random'}}, `-=${speed}`)
-          // //.fromTo($iconback, {autoAlpha:0}, {duration:speed,yPercent:0,autoAlpha:1,ease:'power2.inOut'}, `-=${speed}`)
           .fromTo($icon, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.inOut'}, `-=${speed}`)
           .fromTo($icon, {yPercent:50}, {duration:speed, yPercent:0, ease:'power2.out'}, `-=${speed}`)
           .fromTo($iconletters, {autoAlpha:0,yPercent:100}, {duration:speed*0.7,autoAlpha:1,yPercent:0,ease:'power2.out', stagger:{amount:speed*0.3}}, `-=${speed}`)
@@ -443,12 +428,9 @@ export const Home = {
         //     .set([$words, $this], {autoAlpha:1})
         //     .fromTo($logo, {scale:1.1, autoAlpha:0}, {duration:Preloader.duration_final, scale:1, autoAlpha:1, ease:'power3.inOut'})
         // }
-  
       }
   
       if(!this.initialized) {
-        console.log('!this.initialized');
-        // let delay = App.initialized?0:Preloader.delay;
         let delay = 0;
         //line
         this.lineAnimation = gsap.timeline({paused:true})
@@ -456,7 +438,6 @@ export const Home = {
           .fromTo(Home.pagination, {y:20}, {duration:speed, y:0, ease:'power2.out'}, `-=${speed}`)
   
         this.enterAnimation.eventCallback('onStart', ()=>{
-          // gsap.set(window.$container, {autoAlpha:1});
           let wrapper = document.querySelector('.content')
           gsap.set(wrapper, {autoAlpha:1});
           setTimeout(()=>{

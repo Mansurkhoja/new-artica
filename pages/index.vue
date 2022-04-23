@@ -4,6 +4,7 @@
       <section class="home m-slider-slide">
         <div class="container container_display">
           <Logo class="home-logo" />
+          <!-- <nuxt-link to="test">sas</nuxt-link> -->
         </div>
       </section>
       <section class="fast-categories m-slider-slide">
@@ -147,6 +148,22 @@ import Logo from '~/assets/icons/logo.svg?inline';
 import {Home} from '~/animations/home'
 export default {
   name: "IndexPage",
+  // transition: {
+  //       name: 'custom',
+  //       appear: true,
+  //       css: false,
+  //       enter(el, done) {
+  //           // el.style.transform = `translateY(-80px)`
+  //           console.log("Enter Parent Home", el);
+  //           // Home.enterAnimation.play()
+  //           done()
+  //       },
+  //       leave(el, done) {
+  //           console.log("Leave Parent Home", el);
+  //           // el.style.transform = `translateY(0)`
+  //           done()
+  //       },   
+  //  },
   components: {
     Logo
   },
@@ -294,12 +311,10 @@ export default {
   },
   watch: {
     isPreloaderFinished() {
-      Home.init().then(() => {
-      // Home.enterAnimation.play().eventCallback("onComplete", () => {
-      //   console.log("enterAnimationComplete");
-      // });
-      Home.enterAnimation.play()
-    });
+        Home.init().then(() => {
+        Home.enterAnimation.play()
+      });
+      // Home.init()
     },
   },
   beforeMount() {
@@ -307,6 +322,7 @@ export default {
     // window.removeEventListener('keyup', this.scrollListener);
   },
   mounted() {
+    console.log('Home.enterAnimation.play()');
     this.$splitting()
     this.$animateFake3d()
     let hash = this.$route?.hash ? this.$route.hash.replace( /^\D+/g, '') : 0
@@ -319,6 +335,7 @@ export default {
       Home.init().then(() => {
         Home.enterAnimation.play();
       });})
+      // Home.init()})
     }
   },
   beforeDestroy() {
@@ -326,10 +343,6 @@ export default {
     Home.destroy();
   },
   methods: {
-    ss() {
-      const ea = getEv
-      console.log(ea);
-    }
   },
 };
 </script>

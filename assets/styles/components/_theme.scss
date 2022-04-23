@@ -27,6 +27,14 @@
         transition: .15s ease-out;
         opacity: 0;
     }
+    ::selection {
+        background-color: rgba($color: $white, $alpha: 1.0);
+        color: rgba($color: $black, $alpha: 1.0);
+    }
+    ::-moz-selection {
+        background-color: rgba($color: $white, $alpha: 1.0);
+        color: rgba($color: $black, $alpha: 1.0);
+    }
 }
 
 .light-theme {
@@ -37,5 +45,13 @@
     --item-color-r: var(--white);
     .wrapper {
         display: block;
+    }
+    ::selection {
+        background-color: rgba($color: $black, $alpha: 1.0);
+        color: rgba($color: $white, $alpha: 1.0);
+    }
+    ::-moz-selection {
+        background-color: rgba($color: $black, $alpha: 1.0);
+        color: rgba($color: $white, $alpha: 1.0);
     }
 }

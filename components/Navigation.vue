@@ -212,11 +212,17 @@ export default {
       return this.$store.getters['nav/isNav']
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    console.log('beforeRouteUpdate', this.$route, this.item.name)
+  },
   watch: {
     $route (to, from) {
       if (!this.isFistTime) {
-       this.$nextTick(() => { this.change() })
+       this.$nextTick(() => { setTimeout(()=> {this.change() }, 50)})
       //  to.name === 'index'
+    //   setTimeout(() => {
+    //    this.change()
+    //  }, 50);
       }
     }
   },
@@ -281,7 +287,9 @@ export default {
           }
         }
       })
-
+      // this.logo.addEventListener('click', ()=>{
+      //   this.change()
+      // })
       /* ===== Sub Nav Scrollbars ===== */
       this.initScrollbars();
 
