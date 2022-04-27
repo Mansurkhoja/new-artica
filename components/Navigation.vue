@@ -48,7 +48,7 @@
             <div class="nav-s" data-list="categories">
               <ul class="nav-s__list">
                 <li class="nav-s__item">
-                  <nuxt-link to="/category" exact custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/category" exact custom v-slot="{ isActive }">
                     <a 
                       href="/category" 
                       class="nav-s__link"
@@ -56,10 +56,12 @@
                       :class="isActive ? 'active' : ''">
                       Всё
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <!-- {{$route.path=="/category"}} -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/category/all">Всё</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/category/1" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/category/1" custom v-slot="{ isActive }">
                     <a 
                       href="/category/1" 
                       class="nav-s__link"
@@ -67,10 +69,11 @@
                       :class="isActive ? 'active' : ''">
                       Пользовательский интерфейс
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/category/userinterface">Пользовательский интерфейс</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/category/2" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/category/2" custom v-slot="{ isActive }">
                     <a 
                       href="/category/2" 
                       class="nav-s__link"
@@ -78,10 +81,11 @@
                       :class="isActive ? 'active' : ''">
                       Графический дизайн
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/category/graphicdesign">Графический дизайн</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/category/3" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/category/3" custom v-slot="{ isActive }">
                     <a 
                       href="/category/3" 
                       class="nav-s__link"
@@ -89,10 +93,11 @@
                       :class="isActive ? 'active' : ''">
                       Веб-дизайн
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/category/webdesign">Веб-дизайн</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/category/4" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/category/4" custom v-slot="{ isActive }">
                     <a 
                       href="/category/4" 
                       class="nav-s__link"
@@ -100,10 +105,11 @@
                       :class="isActive ? 'active' : ''">
                       Фирменный стиль
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/category/identity">Фирменный стиль</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/category/5" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/category/5" custom v-slot="{ isActive }">
                     <a 
                       href="/category/5" 
                       class="nav-s__link"
@@ -111,7 +117,8 @@
                       :class="isActive ? 'active' : ''">
                       Приложения
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/category/apps">Приложения</nuxt-link>
                 </li>
               </ul>
             </div>
@@ -119,74 +126,81 @@
             <div class="nav-s" data-list="projects">
               <ul class="nav-s__list">
                 <li class="nav-s__item">
-                  <nuxt-link to="/projects/1" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/projects/1" custom v-slot="{ isActive }">
                     <a 
                       href="/projects/1"
                       class="nav-s__link"
                       :class="isActive ? 'active' : ''">
                       Навигатор
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/projects/1">Навигатор</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/projects/2" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/projects/2" custom v-slot="{ isActive }">
                     <a 
                       href="/projects/2" 
                       class="nav-s__link"
                       :class="isActive ? 'active' : ''">
                       Майолика
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/projects/2">Майолика</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/projects/3" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/projects/3" custom v-slot="{ isActive }">
                     <a 
                       href="/projects/3" 
                       class="nav-s__link"
                       :class="isActive ? 'active' : ''">
                       Route 66
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/projects/3">Route 66</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/projects/4" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/projects/4" custom v-slot="{ isActive }">
                     <a 
                       href="/projects/4" 
                       class="nav-s__link"
                       :class="isActive ? 'active' : ''">
                       Patron
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/projects/4">Patron</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/projects/5" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/projects/5" custom v-slot="{ isActive }">
                     <a 
                       href="/projects/5" 
                       class="nav-s__link"
                       :class="isActive ? 'active' : ''">
                       Twonp
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/projects/5">Twonp</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/projects/6" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/projects/6" custom v-slot="{ isActive }">
                     <a 
                       href="/projects/6" 
                       class="nav-s__link"
                       :class="isActive ? 'active' : ''">
                       Inpool
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/projects/6">Inpool</nuxt-link>
                 </li>
                 <li class="nav-s__item">
-                  <nuxt-link to="/projects/7" custom v-slot="{ isActive }">
+                  <!-- <nuxt-link to="/projects/7" custom v-slot="{ isActive }">
                     <a 
                       href="/projects/7" 
                       class="nav-s__link"
                       :class="isActive ? 'active' : ''">
                       NCE
                     </a>
-                  </nuxt-link>
+                  </nuxt-link> -->
+                  <nuxt-link active-class="active" class="nav-s__link" to="/projects/7">NCE</nuxt-link>
                 </li>
               </ul>
             </div>
@@ -200,6 +214,7 @@
 <script>
 import VirtualScroll from 'virtual-scroll'
 const speed = 1
+import {Nav} from '~/animations'
 export default {
   name: 'NuxtNavigation',
   data() {
@@ -294,14 +309,14 @@ export default {
       this.initScrollbars();
 
       /* ===== Events ===== */
-      this.$nav_s_links.forEach(($link)=>{
-        $link.addEventListener('click', (event)=>{
-          event.preventDefault()
-          let data = $link.getAttribute('data-category');
-          this.$router.push($link.getAttribute('href'))
-          // this.change(event)
-        })
-      })
+      // this.$nav_s_links.forEach(($link)=>{
+      //   $link.addEventListener('click', (event)=>{
+      //     event.preventDefault()
+      //     let data = $link.getAttribute('data-category');
+      //     this.$router.push($link.getAttribute('href'))
+      //     // this.change(event)
+      //   })
+      // })
 
       this.$nav_m_links.forEach(($link)=>{
         /* ===== Click ===== */
@@ -518,8 +533,8 @@ export default {
       }
     
       this.$nav_m_links.forEach(($link)=>{
-        let attr = $link.getAttribute('href'),
-            data = $link.getAttribute('data-list'),
+        // let attr = $link.getAttribute('href'),
+        let data = $link.getAttribute('data-list'),
             list = this.$nav_s_active!==undefined ? this.$nav_s_active.getAttribute('data-list') : false;
         if($link.classList.contains('active') || data==list) {
           count++;
@@ -630,6 +645,7 @@ export default {
     },
     open() {
       this.$store.dispatch('nav/updateNav')
+      Nav.state = true;
       // Header.show();
       this.$toggle.classList.add('disabled');
       this.getNavAnimation(()=>{
@@ -647,6 +663,7 @@ export default {
     },
     close() {
       this.$store.dispatch('nav/updateNav')
+      Nav.state = false;
       this.getNavAnimation(()=>{
         this.animation.reverse(0);
         this.animation.eventCallback("onReverseComplete",()=>{

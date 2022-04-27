@@ -4,6 +4,7 @@ export default ({ store }) => {
   new VuexPersistence({
     key: "artica",
     storage: window.localStorage,
+    // storage: window.sessionStorage ,
     reducer: (state) => {
       return {
         // modules

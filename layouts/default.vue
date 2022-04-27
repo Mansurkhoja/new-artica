@@ -1,6 +1,11 @@
 <template>
   <div class="layout layout--main">
     <div class="wrapper disabled">
+      <div class="scrollbar">
+        <div class="scrollbar__container">
+          <div class="scrollbar__scroller"></div>
+        </div>
+      </div>
       <Header @updateTheme="updateTheme" />
       <Navigation />
       <Nuxt />
@@ -11,14 +16,13 @@
 </template>
 
 <script>
-
 export default {
-  name: 'DefaultLayout',
-  data () {
+  name: "DefaultLayout",
+  data() {
     return {
       animation1: null,
-      animation2: null
-    }
+      animation2: null,
+    };
   },
   // head () {
   //   return {
@@ -28,35 +32,31 @@ export default {
   //   }
   // },
   computed: {
-    isDark () {
-      const isDark = this.$store.getters['theme/isDark']
-      return isDark ? 'dark-theme' : 'light-theme'
-    }
-    // isPreloaderDelay () {
-    //   const isFinishedDelay = this.$store.getters['preloader/isFinishedDelay']
-    //   return isFinishedDelay
-    // }
+    isDark() {
+      const isDark = this.$store.getters["theme/isDark"];
+      return isDark ? "dark-theme" : "light-theme";
+    },
+    isTransition() {
+      const isTransition = this.$store.getters["transition/isTransition"];
+      return isTransition;
+    },
   },
   watch: {},
-  mounted () {
-    this.addClassTheme()
-    this.$touchHoverEvents()
-    // this.$animateFake3d(this.animation1, this.animation2)
+  mounted() {
+    this.addClassTheme();
+    this.$touchHoverEvents();
   },
   methods: {
-    addClassTheme () {
-      // document.documentElement.classList.remove('d-none')
-      document.documentElement.classList.remove('dark-theme')
-      document.documentElement.classList.remove('light-theme')
-      document.documentElement.classList.add(this.isDark)
+    addClassTheme() {
+      document.documentElement.classList.remove("dark-theme");
+      document.documentElement.classList.remove("light-theme");
+      document.documentElement.classList.add(this.isDark);
     },
-    updateTheme () {
-      this.$store.dispatch('theme/updateTheme')
-      this.addClassTheme()
-    }
-  }
-}
+    updateTheme() {
+      this.$store.dispatch("theme/updateTheme");
+      this.addClassTheme();
+    },
+  },
+};
 </script>
 
-<style lang="scss">
-</style>

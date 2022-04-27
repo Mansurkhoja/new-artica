@@ -79,5 +79,16 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+  pageTransition: {
+    name: 'page',
+    mode: 'out-in',
+    css: false,
+    beforeLeave (el) {
+      document.querySelector('.wrapper').classList.add('disabled')
+    },
+    afterLeave (el) {
+      document.querySelector('.wrapper').classList.remove('disabled')
+    },
+  },
 }

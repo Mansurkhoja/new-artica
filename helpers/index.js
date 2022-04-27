@@ -1,5 +1,4 @@
 import gsap from 'gsap';
-// const speed = 1;
 
 export const TouchHoverEvents = {
   targets: 'a, [data-cursor], button, label, tr, .jsTouchHover, .js-3d-object',

@@ -3,12 +3,12 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setTheme (state) {
+  setTheme(state) {
     state.isDark = !state.isDark
   }
 }
 export const actions = {
-  updateTheme ({ commit }) {
+  updateTheme({ commit }) {
     commit('setTheme')
   }
 }

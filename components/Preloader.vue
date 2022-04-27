@@ -31,12 +31,10 @@ export default {
 
     this.init().then(() => {
       this.$store.commit("preloader/setFinish");
-      // this.$splitting()
       setTimeout(() => {
         this.$store.commit("preloader/setFinishDelay");
-        // this.$animateFake3d()
         document.querySelector('.wrapper').classList.remove('disabled');
-      }, this.delay * 2000);
+      }, this.delay * 1000);
     });
   },
   methods: {
@@ -44,8 +42,18 @@ export default {
       const speed = 1;
       const gsap = this.$gsap;
       const isHome = this.$route.path === "/";
+      let hash = this.$route?.hash ? this.$route.hash.replace( /^\D+/g, '') : 0
+      hash = hash ? Number(hash) : 0
+      let isHomeFirstSlide = true
+      if (isHome && hash > 0) {
+        // this.refPreloader.classList.add('preloader--bg')
+        isHomeFirstSlide = false
+      }
       this.durationFinal = Math.max(this.durationInitial * 0.66, speed);
-      this.delay = isHome ? Math.max(this.durationFinal - speed, 0) : 0;
+      // this.delay = isHome ? Math.max(this.durationFinal - speed, 0) : 0;
+      this.delay = isHome && isHomeFirstSlide ? Math.max(this.durationFinal - speed, 0) : 0;
+      this.$store.commit("preloader/setPreloaderDelay", this.delay);
+      this.$store.commit("preloader/setPreloaderDurationFinal", this.durationFinal);
       //animation
       this.preloadAnimation = gsap
         .timeline({ paused: true })
@@ -99,7 +107,7 @@ export default {
             .play()
             .eventCallback("onComplete", () => {
               //home
-              if (isHome) {
+              if (isHome && isHomeFirstSlide) {
                 gsap
                   .timeline()
                   .to(this.refPreloaderIcon, {

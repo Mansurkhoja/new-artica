@@ -40,6 +40,7 @@ label {
     user-select: none;
     -webkit-user-drag: none;
     cursor: pointer;
+    outline: none;
 }
 table {
     border-collapse: collapse;
@@ -348,8 +349,10 @@ p {
     left: 0;
     z-index: 1000;
     display: flex;
-    background-color: rgba(var(--page-bg), 1);
-    transition: 0.5s ease-out;
+    &--bg {
+        // background-color: rgba(var(--page-bg), 1);
+        // transition: 0.5s ease-out;
+    }
     cursor: none;
     &__icon {
         margin: auto;

@@ -1,5 +1,5 @@
 <template>
-  <main class="content contacts" style="opacity: 1; visibility: inherit">
+  <main class="content contacts">
     <div class="container container_display">
       <div class="row contacts__container">
         <div class="contacts-info col-xl-5 col-lg-6">
@@ -117,7 +117,11 @@
                   </div>
                 </div>
                 <div class="contacts__animate-item">
-                  <button class="button contacts-form-button" :class="{'active': totalCorrects === 3}" type="submit">
+                  <button
+                    class="button contacts-form-button"
+                    :class="{ active: totalCorrects === 3 }"
+                    type="submit"
+                  >
                     Отправить
                     <svg
                       class="contacts-form-button__icon"
@@ -214,15 +218,60 @@
 </template>
 
 <script>
-import CorrectIcon from '~/assets/icons/correct.svg?inline';
+import CorrectIcon from "~/assets/icons/correct.svg?inline";
 const speed = 1;
+import { Contacts } from "~/animations";
+
 export default {
-  name: 'ContactsPage',
+  name: "ContactsPage",
+  transition: {
+    name: "contacts",
+    appear: true,
+    css: false,
+    enter(el, done) {
+      if (this.$store.getters["preloader/isFinished"]) {
+        if (el.classList.contains("contacts")) {
+          Contacts.getAnimations().then(() => {
+            Contacts.enterAnimation.play().eventCallback("onComplete", () => {
+              done();
+            });
+          });
+        }
+      } else {
+        done();
+      }
+    },
+    leave(el, done) {
+      if (Contacts.enterAnimation) {
+        Contacts.enterAnimation
+          .reverse(0)
+          .eventCallback("onReverseComplete", () => {
+            done();
+          });
+      } else {
+        done();
+      }
+    },
+  },
   components: {
     CorrectIcon,
   },
+  computed: {
+    isPreloaderFinished() {
+      const isFinished = this.$store.getters["preloader/isFinished"];
+      return isFinished;
+    },
+  },
+  watch: {
+    isPreloaderFinished() {
+      Contacts.getAnimations().then(() => {
+        Contacts.enterAnimation.play();
+      });
+    },
+  },
   data() {
     return {
+      animateItems: null,
       inputPhoneModel: "",
       form: {
         name: {
@@ -312,8 +361,12 @@ export default {
       if (this.totalCorrects < 3) {
         return;
       }
-      this.$gsap.to(this.refFormContainer, {autoAlpha:0.5, duration:speed/2, ease:'power2.inOut'})
-      this.refFormContainer.classList.add('loading');
+      this.$gsap.to(this.refFormContainer, {
+        autoAlpha: 0.5,
+        duration: speed / 2,
+        ease: "power2.inOut",
+      });
+      this.refFormContainer.classList.add("loading");
       // try {
       //   await this.$axios.$post('https://backs.artica.art/backend/api/en', {
       //   name: this.form.name.value,
@@ -323,11 +376,11 @@ export default {
       // .then((res) => {
       //       console.log(res);
       // });
-      // } 
+      // }
       // catch (err) {
       //   console.log(err);
       // }
-    }
+    },
   },
 };
 </script>
