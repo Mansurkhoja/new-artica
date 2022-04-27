@@ -453,8 +453,7 @@ export const Home = {
           .fromTo(Home.pagination, { y: 20 }, { duration: speed, y: 0, ease: 'power2.out' }, `-=${speed}`)
 
         this.enterAnimation.eventCallback('onStart', () => {
-          let wrapper = document.querySelector('.content')
-          gsap.set(wrapper, { autoAlpha: 1 });
+          gsap.set(document.querySelector('.content'), { autoAlpha: 1 });
           setTimeout(() => {
             gsap.fromTo(Home.pagtrigger, { scaleX: 0.5, xPercent: 100 * (Home.slideIndex - 0.25) }, { duration: speed, scaleX: 1, xPercent: 100 * Home.slideIndex, ease: 'power2.out' })
             this.lineAnimation.play();

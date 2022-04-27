@@ -111,7 +111,7 @@
         transform: translateX(-50%);
         height: 100%;
         width: 2px;
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: rgba(var(--item-bg), 0.2);
         transition: background-color $trs2;
       }
     }
@@ -130,7 +130,7 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        background-color: #000;
+        background-color: rgba(var(--item-bg), 1);
         transition: background-color $trs2;
       }
     }

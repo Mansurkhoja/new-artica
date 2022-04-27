@@ -3,8 +3,7 @@
     <div class="m-slider">
       <section class="home m-slider-slide">
         <div class="container container_display">
-          <Logo class="home-logo" />
-          <!-- <nuxt-link to="test">sas</nuxt-link> -->
+          <Logo class="home-logo" style="transfor: scale(1.1)" />
         </div>
       </section>
       <section class="fast-categories m-slider-slide">
