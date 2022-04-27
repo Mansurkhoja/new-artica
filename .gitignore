@@ -88,3 +88,18 @@ sw.*
 
 # Vim swap files
 *.swp
+# custom
+store/
+static/
+assets/
+animations/
+pages/
+plugins/
+layouts/
+helpers/
+components/
+.editorconfig
+nuxt.config.js
+package.json
+package-lock.json
+jsconfig.json
