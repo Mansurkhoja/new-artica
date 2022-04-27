@@ -674,12 +674,12 @@ export const Category = {
         Category.getVisibleProjects();
       });
     } else {
-    Scroll.scrollTo(0, speed);
-    projects.forEach(($project) => { $project.classList.remove('visible') });
-    Category.createGrid(() => {
-      gsap.set(document.querySelector('.projects-category'), { autoAlpha: 1 });
-      Category.getVisibleProjects();
-    });
+      Scroll.scrollTo(0, speed);
+      projects.forEach(($project) => { $project.classList.remove('visible') });
+      Category.createGrid(() => {
+        gsap.set(document.querySelector('.projects-category'), { autoAlpha: 1 });
+        Category.getVisibleProjects();
+      });
     }
   },
   destroy: function () {
@@ -695,7 +695,7 @@ export const Category = {
 export const Scroll = {
   ease: 0.05,                 //easing
   scrollerMinHeight: 100,     //px
-  init: function() {
+  init: function () {
     document.querySelector('.header').classList.add('header_scrollable');
     this.$scroll = document.querySelector('.scrollable');
     this.$scrollbar = document.querySelector('.scrollbar');
@@ -710,24 +710,24 @@ export const Scroll = {
     this.active = false;
     this.visible = undefined;
     this.currentEase = this.ease;
-    this.sectionGetHeight=()=>{return this.$scroll.getBoundingClientRect().height};
-    this.scrollbarGetHeight=()=>{return this.$scrollbar_container.getBoundingClientRect().height};
-    this.scrollerGetHeight=()=>{return this.$scroller.getBoundingClientRect().height};
-    this.scrollerCalcHeight=()=>{return Math.max(this.scrollerMinHeight, this.scrollbarGetHeight()/(this.sectionGetHeight()/window.innerHeight))};
-    this.scrollingCalcHeight=()=>{return this.sectionGetHeight()-window.innerHeight};
+    this.sectionGetHeight = () => { return this.$scroll.getBoundingClientRect().height };
+    this.scrollbarGetHeight = () => { return this.$scrollbar_container.getBoundingClientRect().height };
+    this.scrollerGetHeight = () => { return this.$scroller.getBoundingClientRect().height };
+    this.scrollerCalcHeight = () => { return Math.max(this.scrollerMinHeight, this.scrollbarGetHeight() / (this.sectionGetHeight() / window.innerHeight)) };
+    this.scrollingCalcHeight = () => { return this.sectionGetHeight() - window.innerHeight };
     this.checkScrollSize();
     window.addEventListener('resize', Scroll.checkScrollSize);
-    gsap.set(this.$scroll, {y:this.ty});
+    gsap.set(this.$scroll, { y: this.ty });
 
-    this.initializeTimeout = setTimeout(()=>{
+    this.initializeTimeout = setTimeout(() => {
       /*==== Animation =====*/
-      this.scrollbarAnimation = gsap.timeline({paused:true})
-        .fromTo(this.$scrollbar, {autoAlpha:0}, {duration:speed, autoAlpha:1, ease:'power2.InOut'})
-        .fromTo(this.$scrollbar, {x:15}, {duration:speed, x:0, ease:'power2.out'}, `-=${speed}`)
+      this.scrollbarAnimation = gsap.timeline({ paused: true })
+        .fromTo(this.$scrollbar, { autoAlpha: 0 }, { duration: speed, autoAlpha: 1, ease: 'power2.InOut' })
+        .fromTo(this.$scrollbar, { x: 15 }, { duration: speed, x: 0, ease: 'power2.out' }, `-=${speed}`)
       /*==== Scrolling trigger =====*/
-      this.instance = new VirtualScroll({passive:false});
-      this.instance.on((event)=>{
-        if(!Nav.state && !Scroll.inscroll && Scroll.initialized==true) {
+      this.instance = new VirtualScroll({ passive: false });
+      this.instance.on((event) => {
+        if (!Nav.state && !Scroll.inscroll && Scroll.initialized == true) {
           this.ty += event.deltaY;
           this.ty = Math.max(-this.scrollingCalcHeight(), this.ty);
           this.ty = Math.min(0, this.ty);
@@ -736,115 +736,117 @@ export const Scroll = {
       });
       this.initialized = true;
       this.animation();
-    }, speed*500)
+    }, speed * 500)
   },
   //scrolling animation
-  animation: function() {
-    if(Scroll.initialized) {
+  animation: function () {
+    if (Scroll.initialized) {
       requestAnimationFrame(Scroll.animation);
-      if(Scroll.scrollingCalcHeight()>0) {
+      if (Scroll.scrollingCalcHeight() > 0) {
         //scrollarea
         Scroll.currentY += (Scroll.ty - Scroll.currentY) * Scroll.currentEase;
         Scroll.$scroll.style.transform = `translate3d(0, ${Scroll.currentY}px, 0)`;
         //scroller
-        Scroll.$scroller.style.transform = `translate3d(0, ${-(100*((Scroll.scrollbarGetHeight()-Scroll.scrollerGetHeight())/Scroll.scrollerGetHeight()) * (Scroll.currentY/Scroll.scrollingCalcHeight()))}%, 0)`;
+        Scroll.$scroller.style.transform = `translate3d(0, ${-(100 * ((Scroll.scrollbarGetHeight() - Scroll.scrollerGetHeight()) / Scroll.scrollerGetHeight()) * (Scroll.currentY / Scroll.scrollingCalcHeight()))}%, 0)`;
 
 
-        Scroll.y = Math.round(Scroll.currentY)>-1 ? 0 : Math.round(Scroll.currentY);
-        Scroll.ty = Math.round(Scroll.ty)>-1 ? 0 : Math.round(Scroll.ty);
-        
+        Scroll.y = Math.round(Scroll.currentY) > -1 ? 0 : Math.round(Scroll.currentY);
+        Scroll.ty = Math.round(Scroll.ty) > -1 ? 0 : Math.round(Scroll.ty);
+
         //add scroll event
-        if(Scroll.active) {
-          if(Scroll.ty_old==Scroll.ty || Scroll.ty==Scroll.y) {
-            Scroll.active=false;
+        if (Scroll.active) {
+          if (Scroll.ty_old == Scroll.ty || Scroll.ty == Scroll.y) {
+            Scroll.active = false;
           }
           window.dispatchEvent(new CustomEvent("Scroll"));
-          if(Scroll.ty<Scroll.y || Scroll.ty_old>Scroll.ty) {
+          if (Scroll.ty < Scroll.y || Scroll.ty_old > Scroll.ty) {
             window.dispatchEvent(new CustomEvent("ScrollBottom"));
-          } else if(Scroll.ty>Scroll.y || Scroll.ty_old<Scroll.ty) {
+          } else if (Scroll.ty > Scroll.y || Scroll.ty_old < Scroll.ty) {
             window.dispatchEvent(new CustomEvent("ScrollTop"));
           }
           localStorage.setItem('scroll', Scroll.currentY);
-        } else if(Scroll.ty_old!==Scroll.ty || Scroll.ty!==Scroll.y) {
-          Scroll.active=true;
+        } else if (Scroll.ty_old !== Scroll.ty || Scroll.ty !== Scroll.y) {
+          Scroll.active = true;
         }
       }
       Scroll.ty_old = Scroll.ty;
       Scroll.checkScroller();
     }
   },
-  scrollTo: function(value, scrollSpeed) {
-    if(this.scrollTopTimeout) clearTimeout(this.scrollTopTimeout);
+  scrollTo: function (value, scrollSpeed) {
+    if (this.scrollTopTimeout) clearTimeout(this.scrollTopTimeout);
     value = Math.max(-this.scrollingCalcHeight(), value);
     value = Math.min(0, value);
     this.inscroll = true;
     this.currentEase = 1;
 
     this.scrollToAnimation = gsap
-      .fromTo(Scroll, {ty:Scroll.currentY}, {ty:value, duration:scrollSpeed, ease:'power2.inOut'});
+      .fromTo(Scroll, { ty: Scroll.currentY }, { ty: value, duration: scrollSpeed, ease: 'power2.inOut' });
 
-    this.scrollTopTimeout = setTimeout(()=>{
+    this.scrollTopTimeout = setTimeout(() => {
       this.currentEase = this.ease;
       this.inscroll = false;
-    }, scrollSpeed*1000)
+    }, scrollSpeed * 1000)
   },
-  checkScrollSize: function() {
+  checkScrollSize: function () {
     let h1 = document.querySelector('.header').getBoundingClientRect().height,
-        h2 = window.innerHeight;
-    if(Header.isVisible) {
-      gsap.set(Scroll.$scrollbar, {css:{height:h2-h1}});
+      h2 = window.innerHeight;
+    if (Header.isVisible) {
+      gsap.set(Scroll.$scrollbar, { css: { height: h2 - h1 } });
     } else {
-      gsap.set(Scroll.$scrollbar, {css:{height:h2}});
+      gsap.set(Scroll.$scrollbar, { css: { height: h2 } });
     }
-    if(Scroll.initialized) {
-      gsap.set(Scroll.$scroller, {css:{height:`${100*(Scroll.scrollerCalcHeight()/Scroll.scrollbarGetHeight())}%`}});
+    if (Scroll.initialized) {
+      gsap.set(Scroll.$scroller, { css: { height: `${100 * (Scroll.scrollerCalcHeight() / Scroll.scrollbarGetHeight())}%` } });
     }
   },
-  checkScroller: function() {
+  checkScroller: function () {
     let h1 = document.querySelector('.header').getBoundingClientRect().height,
-        h2 = window.innerHeight;
-    if(Header.isVisible && !this.expanded) {
+      h2 = window.innerHeight;
+    if (Header.isVisible && !this.expanded) {
       this.expanded = true;
-      if(this.expanded_animation) this.expanded_animation.pause();
+      if (this.expanded_animation) this.expanded_animation.pause();
       this.expanded_animation = gsap
-        .to(Scroll.$scrollbar, {duration:speed, css:{height:h2-h1}, ease:'power2.out'})
-    } else if(!Header.isVisible && this.expanded) {
+        .to(Scroll.$scrollbar, { duration: speed, css: { height: h2 - h1 }, ease: 'power2.out' })
+    } else if (!Header.isVisible && this.expanded) {
       this.expanded = false;
-      if(this.expanded_animation) this.expanded_animation.pause();
+      if (this.expanded_animation) this.expanded_animation.pause();
       this.expanded_animation = gsap
-        .to(Scroll.$scrollbar, {duration:speed, css:{height:h2}, ease:'power2.inOut'})
+        .to(Scroll.$scrollbar, { duration: speed, css: { height: h2 }, ease: 'power2.inOut' })
     }
 
-    if(Scroll.scrollingCalcHeight()>0) {
-      if(Scroll.sectionGetHeight()!==Scroll.oldH) {
+    if (Scroll.scrollingCalcHeight() > 0) {
+      if (Scroll.sectionGetHeight() !== Scroll.oldH) {
         Scroll.oldH = Scroll.sectionGetHeight();
-        gsap.to(Scroll.$scroller, {duration:speed, css:{height:`${100*(Scroll.scrollerCalcHeight()/Scroll.scrollbarGetHeight())}%`}, ease:'power2.out'});
+        gsap.to(Scroll.$scroller, { duration: speed, css: { height: `${100 * (Scroll.scrollerCalcHeight() / Scroll.scrollbarGetHeight())}%` }, ease: 'power2.out' });
       }
-      if(!Scroll.visible) {
-        Scroll.visible=true;
+      if (!Scroll.visible) {
+        Scroll.visible = true;
         Scroll.scrollbarAnimation.play();
       }
-    } else if(Scroll.scrollingCalcHeight()<=0) {
-      if(Scroll.visible) {
+    } else if (Scroll.scrollingCalcHeight() <= 0) {
+      if (Scroll.visible) {
         Scroll.oldH = Scroll.sectionGetHeight();
-        gsap.to(Scroll.$scroller, {duration:speed, css:{height:'100%'}, ease:'power2.in'});
-        Scroll.visible=false;
+        gsap.to(Scroll.$scroller, { duration: speed, css: { height: '100%' }, ease: 'power2.in' });
+        Scroll.visible = false;
         Scroll.scrollbarAnimation.reverse();
       }
     }
   },
-  destroy: function() {
-    if(this.initializeTimeout) clearTimeout(this.initializeTimeout);
-    if(this.initialized==true) {
+  destroy: function () {
+    if (this.initializeTimeout) clearTimeout(this.initializeTimeout);
+    if (this.initialized == true) {
       document.querySelector('.header').classList.remove('header_scrollable');
       window.removeEventListener('resize', Scroll.checkScrollSize);
       this.instance.destroy();
-      this.scrollTo(this.currentY+window.innerHeight, speed);
+      this.scrollTo(this.currentY + window.innerHeight, speed);
       this.scrollbarAnimation.reverse();
-      gsap.to(this.$scroller, {duration:speed, css:{height:this.$scroller.getBoundingClientRect().height/2}, ease:'power2.in', onComplete:function(){
-        Scroll.initialized=false;
-        localStorage.setItem('scroll', 0);
-      }});
+      gsap.to(this.$scroller, {
+        duration: speed, css: { height: this.$scroller.getBoundingClientRect().height / 2 }, ease: 'power2.in', onComplete: function () {
+          Scroll.initialized = false;
+          localStorage.setItem('scroll', 0);
+        }
+      });
     }
   }
 }
@@ -853,39 +855,38 @@ export const Nav = {
   state: false,
 }
 export const Header = {
-  init: function() {
+  init: function () {
 
     this.isVisible = true;
-    this.animation = gsap.timeline({paused:true})
-      .to(document.querySelector('.header'), {yPercent:-100, duration:speed, ease:'power2.in'})
-    
+    this.animation = gsap.timeline({ paused: true })
+      .to(document.querySelector('.header'), { yPercent: -100, duration: speed, ease: 'power2.in' })
 
-    window.addEventListener('ScrollBottom', ()=>{
+    window.addEventListener('ScrollBottom', () => {
       this.hide();
     })
 
-    window.addEventListener('ScrollTop', ()=>{
+    window.addEventListener('ScrollTop', () => {
       this.show();
     })
 
   },
-  hide: function() {
-    if(this.isVisible && Scroll.y<-document.querySelector('.header').getBoundingClientRect().height && !Nav.state) {
-      this.isVisible=false;
-      if(this.animation) this.animation.pause();
+  hide: function () {
+    if (this.isVisible && Scroll.y < -document.querySelector('.header').getBoundingClientRect().height && !Nav.state) {
+      this.isVisible = false;
+      if (this.animation) this.animation.pause();
       this.animation = gsap.timeline()
-        .to(document.querySelector('.header'), {yPercent:-100, duration:speed, ease:'power2.inOut'})
+        .to(document.querySelector('.header'), { yPercent: -100, duration: speed, ease: 'power2.inOut' })
     }
   },
-  show: function() {
-    if(!this.isVisible) {
-      this.isVisible=true;
-      if(this.animation) this.animation.pause();
+  show: function () {
+    if (!this.isVisible) {
+      this.isVisible = true;
+      if (this.animation) this.animation.pause();
       this.animation = gsap.timeline()
-        .to(document.querySelector('.header'), {yPercent:0, duration:speed, ease:'power2.out'})
+        .to(document.querySelector('.header'), { yPercent: 0, duration: speed, ease: 'power2.out' })
     }
   },
-  fadeIn: function() {
-    gsap.to(document.querySelector('.header'), {duration:speed, autoAlpha:1, ease:'power2.inOut'});
+  fadeIn: function () {
+    gsap.to(document.querySelector('.header'), { duration: speed, autoAlpha: 1, ease: 'power2.inOut' });
   }
 }
