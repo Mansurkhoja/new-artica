@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/project/majolika", {data:[{},{}],fetch:{},mutations:[]});
