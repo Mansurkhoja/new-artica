@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/category/userinterface", {data:[{},{items:[{projectLink:"\u002Fprojects\u002Fnavigator\u002F",imgCard:"Navigator\u002Fcard.png",title:"Навигатор",descr:"Краткое описание проекта «Навигатор»",category:"userinterface"}]}],fetch:{},mutations:[]});
