@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/category/apps", {data:[{},{items:[{projectLink:"\u002Fproject\u002Finpool\u002F",imgCard:"Inpool\u002Fcard.jpg",title:"Inpool",descr:"Краткое описание проекта «Inpool»",category:"apps"}]}],fetch:{},mutations:[]});
