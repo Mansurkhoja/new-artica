@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/parent/child", {data:[{},{}],fetch:{},mutations:[]});
