@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[21],{520:function(e,n,t){"use strict";t.r(n);var c={name:"ProjectIndexPage"},r=t(21),component=Object(r.a)(c,(function(){var e=this,n=e.$createElement;return(e._self._c||n)("div",[e._v("👆 project 👆")])}),[],!1,null,null,null);n.default=component.exports}}]);

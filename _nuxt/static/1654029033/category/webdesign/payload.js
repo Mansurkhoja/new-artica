@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/category/webdesign", {data:[{},{items:[{projectLink:"\u002Fproject\u002Finpool\u002F",imgCard:"Twonp\u002Fcard.png",title:"Twonp",descr:"Краткое описание проекта «Twonp»",category:"webdesign"}]}],fetch:{},mutations:[]});
