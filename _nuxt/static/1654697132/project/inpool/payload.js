@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/project/inpool", {data:[{},{user:{},ssr:true}],fetch:{},mutations:[]});

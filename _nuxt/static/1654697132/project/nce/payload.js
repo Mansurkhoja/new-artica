@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/project/nce", {data:[{},{user:{},ssr:true}],fetch:{},mutations:[]});

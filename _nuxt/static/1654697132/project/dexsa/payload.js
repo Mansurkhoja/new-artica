@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/project/dexsa", {data:[{},{user:{},ssr:true}],fetch:{},mutations:[]});
