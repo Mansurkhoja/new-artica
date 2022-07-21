@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/en/contacts", (function(a){return {data:[{contacts:{data:[{contact_type:a,value:"+7 910 346 64 66"},{contact_type:"email",value:"mail@artica.art"},{contact_type:a,value:"+7 903 850 20 52"}]}}],fetch:{},mutations:[]}}("phone")));
